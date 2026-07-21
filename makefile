@@ -9,10 +9,13 @@ IPP_COVERS = 1ere.tex 4eme.tex
 SOURCES = $(PROJ).tex my-thesis-setup.tex cleanthesis.sty bib-refs.bib $(wildcard content/*.tex)
 
 # 'make' or 'make all' -> compiles thesis without covers
-all: setup-no-covers $(PROJ).pdf
+all: fast
 
 # 'make fast' -> same as 'all'
-fast: all
+fast: setup-no-covers $(PROJ).pdf
+
+# 'make full' -> compiles thesis WITH IPP covers
+full: setup-covers $(PROJ).pdf
 
 # 'make chapters' -> compile each chapter separately into the chapters/ folder
 chapters: setup-no-covers
@@ -27,7 +30,7 @@ chapters: setup-no-covers
 	@echo "All chapters compiled into chapters/ directory."
 
 # 'make chapter-<name>' -> compile a specific chapter (e.g., make chapter-introduction)
-chapter-%: setup-no-covers
+chapter-%: content/chapter-%.tex setup-no-covers
 	mkdir -p $(AUXSDIR)/chapters/content
 	@echo "Compiling chapter-$*..."
 	$(LC) -pdfxe -outdir=$(AUXSDIR)/chapters -jobname=chapter-$* -pretex="\def\UseIncludeOnly{1} \includeonly{content/chapter-$*}" -usepretex $(PROJ).tex || exit 1

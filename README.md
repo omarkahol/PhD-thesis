@@ -6,7 +6,8 @@ This repository contains the LaTeX source code for the thesis and its accompanyi
 
 The thesis can be compiled using the provided `makefile`. Simply run the commands below in the root of the repository to perform different actions:
 
-- `make` or `make all`: Compiles the main thesis without the cover pages.
+- `make` or `make all`: Compiles the main thesis **without** the cover pages.
+- `make full`: Compiles the main thesis **with** the IPP cover pages.
 - `make fast`: Acts the same as `make all`.
 - `make chapters`: Compiles each chapter separately and outputs the resulting PDFs into a `chapters/` directory.
 - `make chapter-<name>`: Compiles a single specific chapter (e.g., `make chapter-introduction`).
