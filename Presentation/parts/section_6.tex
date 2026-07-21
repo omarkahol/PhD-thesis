@@ -1,0 +1,52 @@
+\section[Conclusion]{Conclusion \& Future Work}
+
+\begin{frame}{Summary of Part I}
+    \begin{block}{CMP \& Surrogate Acceleration}
+        \begin{itemize}
+            \item \textbf{Bridging the Gap:} CMP unifies Full Bayesian exactness with Modular calibration speed.
+            \item \textbf{No False Certitude:} Decouples hyperparameter optimization while preserving Full Bayesian bounds.
+            \item \textbf{Acceleration (AS-hGP):} Expected Variance Reduction drastically speeds up inference.
+            \item \textbf{Validation:} Successfully resolved missing data and severe model error in hypersonic flows.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Summary of Part II}
+    \begin{block}{Piecewise Emulation of Discontinuous Responses}
+        \begin{itemize}
+            \item \textbf{Data-Driven Discovery:} Emulates discontinuous physics without prior expert knowledge.
+            \item \textbf{Iterative Coupling:} Unifies clustering, classification, and regression into a robust loop.
+            \item \textbf{Overcoming Limitations:} Successfully eliminates Gibbs oscillations and global regressor smearing.
+        \end{itemize}
+    \end{block}
+\end{frame}
+
+\begin{frame}{Future Perspectives}
+    \begin{itemize}
+        \item \textbf{Active Learning for Piecewise Surrogates:} Extend the Expected Variance Reduction criterion (ALC) to efficiently train the clustering-based surrogate model (non-Gaussian mixture).
+        \item \textbf{Integration:} Directly couple the piecewise emulator within the calibration loop to enable robust inference for discontinuous physics (e.g., icing regime shifts).
+    \end{itemize}
+    \vspace{0.5cm}
+    \begin{center}
+        \begin{tikzpicture}
+            \node[draw, rounded corners, fill=green!10, text width=4cm, align=center] (uq) {Robust UQ \& Calibration};
+            \node[draw, rounded corners, fill=orange!10, text width=4cm, align=center, right=1.5cm of uq] (surr) {Piecewise Emulation};
+            
+            \draw[<->, thick, shorten >=2pt, shorten <=2pt] (uq) -- (surr);
+            \node[below=0.2cm of uq, text width=4cm, align=center, font=\small] {Identifies domains of interest};
+            \node[below=0.2cm of surr, text width=4cm, align=center, font=\small] {Accelerates inference};
+        \end{tikzpicture}
+    \end{center}
+\end{frame}
+
+\begin{frame}{Impact on the Future of In-Flight Icing Research}
+    \begin{itemize}
+        \item Enable truly probabilistic morphogenetic models.
+        \item Combine UQ techniques with similarity measures of ice shapes.
+        \item Design robust anti-icing systems through global sensitivity and the Icing Severity Index (ISI).
+    \end{itemize}
+    \vspace{0.5cm}
+    \begin{block}{Final Remark}
+        The methodological advancements of this thesis provide the mathematical foundation required to transition highly complex aerospace phenomena towards a reliable, simulation-based design and virtual certification paradigm.
+    \end{block}
+\end{frame}

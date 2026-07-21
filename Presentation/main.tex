@@ -1,0 +1,167 @@
+% !TEX TS-program = pdflatex
+% !TeX encoding = UTF-8
+% !TeX spellcheck = en_GB
+%=======================================================================
+%== Template for LaTeX presentation ====================================
+%=======================================================================
+\providecommand{\PathP}{./parts/} 		% Path to Parts folders
+\providecommand{\PathR}{./resources/} 	% Path to Resources folders
+\providecommand{\PathSO}{./sources/} 	% Path to Sources folders
+\providecommand{\PathS}{./supplies/} 	% Path to Supplies folders
+\providecommand{\BuildTrigger}{buildnew} % Trigger to build or not standalone parts.
+\providecommand{\langue}{english}		% english, french
+
+\makeatletter
+	\def\input@path{{\PathSO}{\PathSO/gotham}{\PathSO/Inria/}} 		% to be able to find package in resource folders.
+	\ifx\c@levelstanda\undefined 	% to create a newcounter if it doesn't exists.
+		\newcounter{levelstanda}
+	\else
+		{}% it already exist
+	\fi
+\makeatother
+
+
+\documentclass[notheorems, noamsthm, aspectratio=169, 10pt]{beamer}
+	% use this instead for 16:9 aspect ratio: [aspectratio=169]
+	% supported aspect ratios  1610  169 149 54 43 (default) 32
+	%
+	% The option "handout, " allows to the print the hidden slides made by <handout:1|beamer:0>[noframenumbering].
+	%
+	% the option "notes=only, " to print only the notes !
+	\usepackage[l2tabu, orthodox]{nag}	% Help to prevent buggus with warnings
+
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+%        DEFAULT PACKAGES
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	\usepackage[utf8]{inputenc}
+	\usepackage[T1]{fontenc}
+
+
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+%        BEAMER OPTIONS
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	% Gotham Theme
+	\usetheme{gotham}
+	\usetheme{gothamInria}
+		\InriaSet{RF}% {RF,old1,old2,old3}
+	% \usetheme{gothamCEA}
+	% 	\CEASet{official}% {official}
+
+		% Apply all Gotham setting.
+		\gothamset{
+			% format frametitle=titlecase,
+			% format title=titlecase, format section=titlecase,
+			% sectionframe default=on, sectiontocframe default=on,
+			numbering= totalframenumber, %none, framenumber,
+			progressbar position= foot, %none, head, frametitle, foot
+			background= transparent, %dark, %light, %transparent,
+		}
+		\setcounter{tocdepth}{3}
+
+
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+%        LOADING MY PACKAGES
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	\newcommand{\Pathbasebib}{\PathR/Presentation.bib}
+	\newcommand{\PathSymbolsEntries}{\PathR/UsersSymbolsAcronyms}%.bib
+	\def\OSvar{linux} % windows, mac, linux
+
+	\input{\PathR/UsersPackagesDefs.tex}
+	\input{\PathR/UsersMathsCommands.tex}
+
+	% To see notes !
+	%\setbeameroption{show notes} % un-comment to see the notes in
+	%\usepackage{pgfpages}
+	% See notes
+	%\setbeameroption{show notes on second screen=right} % Requires \usepackage{pgfpages} and pympress or pdfpc
+
+
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+%	PRESENTATION INFORMATION
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+	\title[MSCA grant agreement No 101072551 (TRACES)]{PhD defense}
+	\subtitle{Robust Calibration and Emulation of Complex Computer Models.}
+	\date[]{\today}
+	\author[omar.kahol@inria.fr]{Omar Kahol}
+	\institute[Inria/PoliMi]{
+		Host Institution: Ecole Polytechnique / Inria \\
+		Joint Institution: Politecnico di Milano
+	}
+	\titlegraphic{}
+
+	\hypersetup{
+		pdfpagemode = FullScreen, % Display the presentation in fullscreen at launch.
+		pdfauthor 	= {Omar Kahol}, %
+		pdfproducer = {LaTeX-Beamer} %
+	}
+
+
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+%	DOCUMENT
+%-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+\setbeamercolor{block title}{bg=structure.fg!90!black, fg=white}
+\setbeamercolor{block body}{bg=structure.fg!10, fg=black}
+\begin{document}
+\stepcounter{levelstanda}
+
+%%%%%%%%%%%%%%%%%%%%%
+%%%  FRONTMATTER  %%%
+%%%%%%%%%%%%%%%%%%%%%
+	% FRAME
+	\begin{frame}[plain,noframenumbering]
+		\titlepage
+	\end{frame}
+
+	% FRAME (Acknowledgement)
+	\begin{frame}[plain,noframenumbering]{Acknowledgement}
+		\centering
+		\vspace*{0.5cm}
+		
+		\begin{minipage}{0.85\textwidth}
+			\centering
+			\scriptsize
+			This project has received funding from the European Union’s Horizon Europe research and innovation programme under the Marie Skłodowska-Curie grant agreement No 101072551 (TRACES).
+		\end{minipage}
+		
+		\vspace*{0.8cm}
+		
+		\begin{columns}[c]
+			\begin{column}{0.5\textwidth}
+				\centering
+				\includegraphics[height=1.8cm]{../gfx/traces-logo.pdf}
+			\end{column}
+			\begin{column}{0.5\textwidth}
+				\centering
+				\includegraphics[height=1.2cm]{../gfx/EN_FundedbytheEU_RGB_POS.png}
+			\end{column}
+		\end{columns}
+	\end{frame}
+
+	% FRAME
+	\begin{frame}[toc]{Outline}
+		\tableofcontents
+	\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%
+%%%  MAINMATTER  %%%
+%%%%%%%%%%%%%%%%%%%%
+% Add new content by copying one of the numbered files in parts/.
+% Keep the section title and all of its frames together in the same file.
+\input{\PathP/section_1_2.tex}
+\input{\PathP/section_3_4.tex}
+\input{\PathP/section_5.tex}
+\input{\PathP/section_6.tex}
+
+
+
+%%%%%%%%%%%%%%%%%%%%
+%%%  BACKMATTER  %%%
+%%%%%%%%%%%%%%%%%%%%
+	\begin{frame}[noframenumbering, allowframebreaks]{References}
+		\printbibliography[heading=none]
+	\end{frame}
+
+\addtocounter{levelstanda}{-1}
+\end{document}

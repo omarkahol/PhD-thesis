@@ -1,0 +1,107 @@
+% !TEX root = ../my-thesis.tex
+%
+\pdfbookmark[0]{Executive Summary}{Extended Resume}
+\addchap*{Summary in English}
+\label{sec:abstract}
+
+This PhD thesis is motivated by the need to advance Uncertainty Quantification (UQ) methodologies for numerical models of complex physical systems, specifically targeting those concerning in-flight icing research. The physics of ice accretion is complex and poorly understood, resulting in significant model error in the currently available computational tools. This inadequacy severely limits the reliability and trust of these computational tools, hindering their adoption for critical aerospace design and certification. To enable widespread use, it is crucial to develop robust methodologies capable of accounting for model error and providing reliable uncertainty estimates. 
+
+\smallskip
+To address these challenges, this research operates in the field of Bayesian statistics, focusing on two aspects: Bayesian inverse problems (calibration) and forward UQ (emulation). 
+
+\smallskip
+Bayesian calibration is the art of inferring unknown model parameters by comparing model predictions with experimental observations of a quantity of interest. When the model is an imperfect representation of reality, Bayesian calibration must operate under the presence of both model and measurement uncertainty. Frameworks like the Kennedy and O'Hagan (KOH) approach have been developed to account for model error. However, the full Bayesian framework, which offers a rigorous statistical treatment of model error, requires sampling high-dimensional and complex posterior distributions, making it computationally intractable for real-world applications. As a result, practitioners often resort to modular approaches that decouple calibration and model error inference, but these methods are known to produce overconfident and biased posterior distributions, undermining the reliability of the results.
+
+\smallskip
+Furthermore, all UQ tasks inherently require thousands of model evaluations, an unsustainable demand for expensive computer codes, like those found in the applications of interest. Practitioners often rely on surrogate representations of the original model to reduce the computational burden. However, simplified emulators, such as Gaussian Processes (GPs) and Polynomial Chaos Expansions (PCEs), are not designed to handle the complex, non-linear, and discontinuous responses typical of the physical systems under study. This leads to inaccurate predictions and unreliable uncertainty estimates, further eroding trust in computational tools.
+
+
+\smallskip
+The first contribution directly addresses the limitations of full Bayesian and Modular techniques by introducing the Complete Maximum a Posteriori (CMP) method. Unlike standard modular approaches that completely decouple calibration and model error inference, CMP preserves the link between the two.
+Instead of choosing an arbitrary point estimate for the model error, CMP allows the model error to be a function of the physical parameters. Contrary to the full KOH framework, this dependence is not treated as a random process but as a deterministic function.
+The resulting posterior distribution is designed to approximate the distribution of the physical parameters that would be obtained from the full KOH framework, but without the need to sample the full high-dimensional model error process. 
+
+\smallskip
+The CMP method still relies on the solution of an optimization problem, potentially introducing additional computational overhead. To resolve this, 
+in a second contribution, we relax the requirement of a global optimization solution and replace it with a multi-output Gaussian Process. We develop an ad-hoc active learning strategy that leverages the properties of GPs to strategically concentrate the surrogate's accuracy strictly within the regions of the parameter space most relevant to the posterior distribution. Our approach eliminates the costs of the CMP method, while still providing an excellent approximation of the full KOH posterior distribution.
+
+\smallskip
+The robustness of these methodologies is validated through a complex test case developed in collaboration with the Von Karman Institute for Fluid Dynamics (VKI). The objective is to reconstruct the catalytic efficiencies of Thermal Protection Materials (TPM) used in re-entry vehicle heat shields, using heat-flux measurements from the hypersonic Plasmatron facility. This scenario is heavily afflicted by both inherent model error and experimental measurement bias. By applying different calibration methodologies, we developed a specialized calibration strategy for future experiments and validated the CMP method and its surrogate-based variant. 
+
+\smallskip
+Shifting focus to forward UQ, the final contribution tackles the emulation of computer codes exhibiting discontinuous or highly non-linear responses. Standard global surrogate models fail in these scenarios, either producing severe spurious oscillations, or requiring an impractical number of training samples or complex and non-interpretable model architectures.
+
+To solve this, we developed a novel, data-driven, surrogate modeling algorithm that is based on a piecewise representation. We combine classification and regression to formulate the problem of domain partitioning and surrogate construction as an optimization problem. Such an approach also leverages existing optimization techniques for training, and it is designed to work with multiple surrogate model and classifier architectures, requiring minimal modifications to existing frameworks. 
+
+The method is validated on a set of benchmark problems, across a range of dimensions and complexity, and it is shown to outperform standard global surrogate models in terms of accuracy and uncertainty quantification capabilities.
+
+\bigskip
+{\usekomafont{chapter}Riassunto in Italiano}
+\label{sec:abstract-it}
+
+Questa tesi di dottorato \`e motivata dalla necessit\`a di far progredire le metodologie di Quantificazione dell'Incertezza (UQ) per i modelli numerici di sistemi fisici complessi, rivolgendosi in particolare a quelli riguardanti la ricerca sulla formazione di ghiaccio in volo. La fisica dell'accrescimento del ghiaccio \`e complessa e scarsamente compresa, il che si traduce in un significativo errore di modello negli strumenti computazionali attualmente disponibili. Questa inadeguatezza limita severamente l'affidabilit\`a e la fiducia in questi strumenti computazionali, ostacolandone l'adozione per la progettazione e la certificazione aerospaziale critica. Per consentirne un uso diffuso, \`e cruciale sviluppare metodologie robuste capaci di tenere conto dell'errore di modello e di fornire stime affidabili dell'incertezza.
+
+\smallskip
+Per affrontare queste sfide, questa ricerca opera nel campo della statistica bayesiana, concentrandosi su due aspetti: i problemi inversi bayesiani (calibrazione) e la propagazione dell'incertezza (forward UQ, emulazione).
+
+\smallskip
+La calibrazione bayesiana \`e l'arte di inferire i parametri incogniti del modello confrontando le previsioni del modello con le osservazioni sperimentali di una quantit\`a di interesse. Quando il modello \`e una rappresentazione imperfetta della realt\`a, la calibrazione bayesiana deve operare in presenza di incertezza sia del modello che di misura. Framework come l'approccio di Kennedy e O'Hagan (KOH) sono stati sviluppati per tenere conto dell'errore di modello. Tuttavia, il framework bayesiano completo, che offre un rigoroso trattamento statistico dell'errore di modello, richiede il campionamento di distribuzioni a posteriori complesse e ad alta dimensionalit\`a, rendendolo computazionalmente intrattabile per le applicazioni nel mondo reale. Di conseguenza, i ricercatori ricorrono spesso ad approcci modulari che disaccoppiano la calibrazione e l'inferenza dell'errore di modello, ma questi metodi sono noti per produrre distribuzioni a posteriori eccessivamente fiduciose e distorte, compromettendo l'affidabilit\`a dei risultati.
+
+\smallskip
+Inoltre, tutti i compiti di UQ richiedono intrinsecamente migliaia di valutazioni del modello, una richiesta insostenibile per codici computazionali onerosi, come quelli che si trovano nelle applicazioni di interesse. Spesso ci si affida a rappresentazioni surrogate del modello originale per ridurre il carico computazionale. Tuttavia, emulatori semplificati, come i Processi Gaussiani (GP) e le Espansioni in Caos Polinomiale (PCE), non sono progettati per gestire le risposte complesse, non lineari e discontinue tipiche dei sistemi fisici in esame. Ciò porta a previsioni inaccurate e stime di incertezza inaffidabili, erodendo ulteriormente la fiducia negli strumenti computazionali.
+
+\smallskip
+Il primo contributo affronta direttamente le limitazioni delle tecniche bayesiane complete e modulari introducendo il metodo Complete Maximum a Posteriori (CMP). A differenza degli approcci modulari standard che disaccoppiano completamente la calibrazione e l'inferenza dell'errore di modello, il CMP preserva il legame tra i due.
+Invece di scegliere una stima puntuale arbitraria per l'errore di modello, il CMP permette all'errore di modello di essere una funzione dei parametri fisici. Contrariamente al framework KOH completo, questa dipendenza non \`e trattata come un processo aleatorio ma come una funzione deterministica.
+La distribuzione a posteriori risultante \`e progettata per approssimare la distribuzione dei parametri fisici che si otterrebbe dal framework KOH completo, ma senza la necessit\`a di campionare l'intero processo dell'errore di modello ad alta dimensionalit\`a.
+
+\smallskip
+Il metodo CMP si basa ancora sulla soluzione di un problema di ottimizzazione, introducendo potenzialmente un ulteriore onere computazionale. Per risolvere questo,
+in un secondo contributo, allentiamo il requisito di una soluzione di ottimizzazione globale e lo sostituiamo con un Processo Gaussiano a output multiplo. Sviluppiamo una strategia di active learning ad-hoc che sfrutta le propriet\`a dei GP per concentrare strategicamente l'accuratezza del surrogato strettamente all'interno delle regioni dello spazio dei parametri pi\`u rilevanti per la distribuzione a posteriori. Il nostro approccio elimina i costi del metodo CMP, pur fornendo un'eccellente approssimazione della distribuzione a posteriori KOH completa.
+
+\smallskip
+La robustezza di queste metodologie \`e validata attraverso un caso di test complesso sviluppato in collaborazione con il Von Karman Institute for Fluid Dynamics (VKI). L'obiettivo \`e ricostruire le efficienze catalitiche dei Materiali di Protezione Termica (TPM) utilizzati negli scudi termici dei veicoli di rientro, utilizzando misurazioni del flusso termico provenienti dall'impianto ipersonico Plasmatron. Questo scenario \`e fortemente afflitto sia dall'errore di modello intrinseco che dai bias di misurazione sperimentale. Applicando diverse metodologie di calibrazione, abbiamo sviluppato una strategia di calibrazione specializzata per esperimenti futuri e validato il metodo CMP e la sua variante basata su surrogato.
+
+\smallskip
+Spostando l'attenzione sulla UQ diretta, il contributo finale affronta l'emulazione di codici computazionali che mostrano risposte discontinue o altamente non lineari. I modelli surrogati globali standard falliscono in questi scenari, producendo gravi oscillazioni spurie, oppure richiedendo un numero irrealizzabile di campioni di addestramento o architetture di modello complesse e non interpretabili.
+
+Per risolvere questo problema, abbiamo sviluppato un nuovo algoritmo di modellazione surrogata guidato dai dati (data-driven), basato su una rappresentazione a tratti. Combiniamo classificazione e regressione per formulare il problema del partizionamento del dominio e della costruzione del surrogato come un problema di ottimizzazione. 
+
+Tale approccio sfrutta inoltre le tecniche di ottimizzazione esistenti per l'addestramento ed \`e progettato per funzionare con molteplici architetture di modelli surrogati e classificatori, richiedendo modifiche minime ai framework esistenti.
+
+Il metodo \`e validato su una serie di problemi di benchmark, attraverso una gamma di dimensioni e complessit\`a, e si dimostra superiore ai modelli surrogati globali standard in termini di accuratezza e capacit\`a di quantificazione dell'incertezza.
+
+
+\bigskip
+{\usekomafont{chapter} R\'esum\'e en Fran\c{c}ais}
+\label{sec:abstract-fr}
+
+Cette th\`ese de doctorat est motiv\'ee par le besoin de faire progresser les m\'ethodologies de Quantification de l'Incertitude (UQ) pour les mod\`eles num\'eriques de syst\`emes physiques complexes, en ciblant sp\'ecifiquement ceux concernant la recherche sur le givrage en vol. La physique de l'accr\'etion de glace est complexe et mal comprise, ce qui entra\^ine une erreur de mod\`ele significative dans les outils informatiques actuellement disponibles. Cette inad\'equation limite s\'ev\`erement la fiabilit\'e et la confiance en ces outils informatiques, entravant leur adoption pour la conception et la certification a\'erospatiale critique. Pour permettre leur utilisation \`a grande \'echelle, il est crucial de d\'evelopper des m\'ethodologies robustes capables de prendre en compte l'erreur de mod\`ele et de fournir des estimations d'incertitude fiables.
+
+\smallskip
+Pour relever ces d\'efis, cette recherche op\`ere dans le domaine des statistiques bay\'esiennes, en se concentrant sur deux aspects : les probl\`emes inverses bay\'esiens (\'etalonnage) et la propagation des incertitudes (forward UQ, \'emulation).
+
+\smallskip
+L'\'etalonnage bay\'esien est l'art d'inf\'erer les param\`etres inconnus d'un mod\`ele en comparant les pr\'edictions du mod\`ele avec les observations exp\'erimentales d'une quantit\'e d'int\'er\^et. Lorsque le mod\`ele est une repr\'esentation imparfaite de la r\'ealit\'e, l'\'etalonnage bay\'esien doit op\'erer en pr\'esence d'incertitudes li\'ees \`a la fois au mod\`ele et aux mesures. Des cadres tels que l'approche de Kennedy et O'Hagan (KOH) ont \'et\'e d\'evelopp\'es pour tenir compte de l'erreur de mod\`ele. Cependant, le cadre bay\'esien complet, qui offre un traitement statistique rigoureux de l'erreur de mod\`ele, n\'ecessite l'\'echantillonnage de distributions a posteriori complexes et de grande dimension, le rendant informatiquement intraitable pour les applications du monde r\'eel. Par cons\'equent, les praticiens ont souvent recours \`a des approches modulaires qui d\'ecouplent l'\'etalonnage et l'inf\'erence de l'erreur de mod\`ele, mais ces m\'ethodes sont connues pour produire des distributions a posteriori trop confiantes et biais\'ees, compromettant la fiabilit\'e des r\'esultats.
+
+\smallskip
+De plus, toutes les t\^aches d'UQ n\'ecessitent intrins\`equement des milliers d'\'evaluations du mod\`ele, une demande insoutenable pour des codes informatiques co\^uteux, tels que ceux rencontr\'es dans les applications d'int\'er\^et. Les praticiens s'appuient souvent sur des repr\'esentations de substitution du mod\`ele original pour r\'eduire la charge de calcul. Cependant, les \'emulateurs simplifi\'es, tels que les Processus Gaussiens (GP) et les D\'eveloppements en Chaos Polynomial (PCE), ne sont pas con\c{c}us pour g\'erer les r\'eponses complexes, non lin\'eaires et discontinues typiques des syst\`emes physiques \'etudi\'es. Cela conduit \`a des pr\'edictions inexactes et \`a des estimations d'incertitude peu fiables, \'erodant encore davantage la confiance dans les outils informatiques.
+
+\smallskip
+La premi\`ere contribution aborde directement les limites des techniques bay\'esiennes compl\`etes et modulaires en introduisant la m\'ethode Complete Maximum a Posteriori (CMP). Contrairement aux approches modulaires standard qui d\'ecouplent compl\`etement l'\'etalonnage et l'inf\'erence de l'erreur de mod\`ele, la CMP pr\'eserve le lien entre les deux.
+Au lieu de choisir une estimation ponctuelle arbitraire pour l'erreur de mod\`ele, la CMP permet \`a l'erreur de mod\`ele d'\^etre une fonction des param\`etres physiques. Contrairement au cadre KOH complet, cette d\'ependance n'est pas trait\'ee comme un processus al\'eatoire mais comme une fonction d\'eterministe.
+La distribution a posteriori r\'esultante est con\c{c}ue pour approximer la distribution des param\`etres physiques qui serait obtenue \`a partir du cadre KOH complet, mais sans la n\'ecessit\'e d'\'echantillonner l'ensemble du processus d'erreur de mod\`ele en grande dimension.
+
+\smallskip
+La m\'ethode CMP repose toujours sur la r\'esolution d'un probl\`eme d'optimisation, introduisant potentiellement une surcharge de calcul suppl\'ementaire. Pour r\'esoudre ce probl\`eme,
+dans une deuxi\`eme contribution, nous assouplissons l'exigence d'une solution d'optimisation globale et la rempla\c{c}ons par un Processus Gaussien \`a sorties multiples. Nous d\'eveloppons une strat\'egie d'apprentissage actif ad hoc qui exploite les propri\'et\'es des GP pour concentrer strat\'egiquement la pr\'ecision du mod\`ele de substitution strictement dans les r\'egions de l'espace des param\`etres les plus pertinentes pour la distribution a posteriori. Notre approche \'elimine les co\^uts de la m\'ethode CMP, tout en fournissant une excellente approximation de la distribution a posteriori KOH compl\`ete.
+
+\smallskip
+La robustesse de ces m\'ethodologies est valid\'ee \`a travers un cas de test complexe d\'evelopp\'e en collaboration avec l'Institut von Karman de Dynamique des Fluides (VKI). L'objectif est de reconstruire les efficacit\'es catalytiques des Mat\'eriaux de Protection Thermique (TPM) utilis\'es dans les boucliers thermiques des v\'ehicules de rentr\'ee, en utilisant des mesures de flux thermique provenant de l'installation hypersonique Plasmatron. Ce sc\'enario est fortement affect\'e \`a la fois par l'erreur de mod\`ele inh\'erente et par les biais de mesure exp\'erimentale. En appliquant diff\'erentes m\'ethodologies d'\'etalonnage, nous avons d\'evelopp\'e une strat\'egie d'\'etalonnage sp\'ecialis\'ee pour les exp\'eriences futures et valid\'e la m\'ethode CMP et sa variante bas\'ee sur un mod\`ele de substitution.
+
+\smallskip
+En d\'epla\c{c}ant l'attention vers l'UQ directe, la contribution finale aborde l'\'emulation de codes informatiques pr\'esentant des r\'eponses discontinues ou hautement non lin\'eaires. Les mod\`eles de substitution globaux standards \'echouent dans ces sc\'enarios, soit en produisant de graves oscillations parasites, soit en n\'ecessitant un nombre irr\'ealisable d'\'echantillons d'apprentissage ou des architectures de mod\`ele complexes et non interpr\'etables.
+
+Pour r\'esoudre ce probl\`eme, nous avons d\'evelopp\'e un nouvel algorithme de mod\'elisation de substitution pilot\'e par les donn\'ees (data-driven), bas\'e sur une repr\'esentation par morceaux. Nous combinons classification et r\'egression pour formuler le probl\`eme du partitionnement de domaine et de la construction du mod\`ele de substitution comme un probl\`eme d'optimisation. Une telle approche exploite \'egalement les techniques d'optimisation existantes pour l'entra\^inement, et elle est con\c{c}ue pour fonctionner avec de multiples architectures de mod\`eles de substitution et de classificateurs, ne n\'ecessitant que des modifications minimales aux cadres existants.
+
+La m\'ethode est valid\'ee sur un ensemble de probl\`emes de r\'ef\'erence, \`a travers une gamme de dimensions et de complexit\'es, et s'av\`ere sup\'erieure aux mod\`eles de substitution globaux standards en termes de pr\'ecision et de capacit\'es de quantification de l'incertitude.

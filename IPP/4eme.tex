@@ -1,0 +1,147 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Modèle pour la 4ème de couverture des thèses préparées à l'Institut Polytechnique de Paris, basé sur le modèle produit par Nikolas STOTT / Template for back cover of thesis made at Institut Polytechnique de Paris, based on the template made by Nikolas STOTT
+%%% Mis à jour par Aurélien ARNOUX (École polytechnique)/ Updated by Aurélien ARNOUX (École polytechnique)
+%%% Les instructions concernant chaque donnée à remplir sont données en bloc de commentaire / Rules to fill this file are given in comment blocks
+%%% ATTENTION Ces informations doivent tenir sur une seule page une fois compilées / WARNING These informations must contain in no more than one page once compiled
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Version du 28 avril 2020 : utilisation de .png au lieu de .jpg pour les logos
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{geometry}
+\geometry{
+left=16mm,
+top=30mm,
+right=16mm,
+bottom=30mm
+}
+\usepackage{xcolor}
+\usepackage[absolute,overlay]{textpos}
+\usepackage{graphicx}
+\usepackage{lipsum}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{multicol}
+\setlength{\columnseprule}{0pt}
+\setlength\columnsep{10pt}
+
+\usepackage[french]{babel}
+
+\label{form}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Formulaire / Form
+%%% Remplacer les paramètres des \newcommand par les informations demandées / Replace \newcommand parameters by asked informations
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\logoEd}{ed}																		%% Logo de l'école doctorale. Indiquer le sigle (EDIPP, EDMH) / Doctoral school logo. Indicate the acronym : EDMH, EDIPP
+\newcommand{\PhDTitleFR}{titre (en français)}													%% Titre de la thèse en français / Thesis title in french
+\newcommand{\keywordsFR}{3 à 6 mots clés}														%% Mots clés en français, séprarés par des , / Keywords in french, separated by ,
+\newcommand{\abstractFR}{Cette thèse fait progresser les méthodologies de quantification de l'incertitude (UQ) pour les modèles de calcul complexes, motivée par les défis physiques et calculatoires de la recherche aérospatiale et du givrage en vol. Le travail s'articule autour de deux contributions principales. Premièrement, il aborde les problèmes inverses bayésiens en présence d'erreur de modèle en proposant la méthode Complete Maximum a Posteriori (CMP). Ce nouveau cadre modulaire gère efficacement l'erreur tout en préservant le flux naturel d'incertitude, et est accéléré via des processus gaussiens multi-sorties. La méthode CMP est appliquée à un cas de test hypersonique complexe en collaboration avec l'Institut von Karman de Dynamique des Fluides. Elle reconstruit avec succès les efficacités catalytiques des matériaux de protection thermique et estime la température totale du réservoir à partir des mesures de flux de chaleur du Plasmatron, en gérant de manière robuste les biais de mesure et les inadéquations intrinsèques du modèle. Deuxièmement, la thèse introduit un algorithme de clustering autonome basé sur le modèle pour construire des émulateurs continus par morceaux, purement basés sur les données. Cette technique capture précisément les réponses discontinues sans connaissance a priori. Ensemble, ces méthodologies permettent une UQ fiable pour des applications d'ingénierie complexes et non lisses.}															%% Résumé en français / abstract in french
+
+\newcommand{\PhDTitleITA}{titre (en italien)}													%% Titre de la thèse en italien / Thesis title in italian
+\newcommand{\keywordsITA}{3 à 6 mots clés}														%% Mots clés en italien, séprarés par des , / Keywords in italian, separated by ,
+\newcommand{\abstractITA}{Questa tesi fa progredire le metodologie di Uncertainty Quantification (UQ) per modelli computazionali complessi, motivata dalle sfide fisiche e computazionali della ricerca aerospaziale e sul ghiaccio in volo. Il lavoro si articola in due contributi principali. In primo luogo, affronta i problemi inversi bayesiani in presenza di errore del modello proponendo il metodo Complete Maximum a Posteriori (CMP). Questo nuovo framework modulare gestisce efficacemente l'errore preservando il flusso naturale di incertezza, ed è accelerato in modo efficiente tramite Processi Gaussiani multi-output. Il metodo CMP è validato su un complesso caso di prova ipersonico in collaborazione con l'Istituto von Karman per la Fluidodinamica. Il framework ricostruisce con successo le efficienze catalitiche dei materiali di protezione termica e stima la temperatura totale del serbatoio a partire dalle misurazioni di flusso termico del Plasmatron, gestendo in modo robusto bias di misura e inadeguatezze intrinseche del modello. In secondo luogo, la tesi introduce un algoritmo di clustering autonomo basato sul modello per costruire emulatori continui a tratti puramente guidati dai dati. Questa tecnica cattura accuratamente risposte discontinue senza alcuna conoscenza a priori. Insieme, queste metodologie abilitano una UQ affidabile per applicazioni ingegneristiche complesse e discontinue.}															%% Résumé en italien / abstract in italian
+
+
+\newcommand{\PhDTitleEN}{titre (en anglais)}													%% Titre de la thèse en anglais / Thesis title in english
+\newcommand{\keywordsEN}{3 à 6 mots clés}														%% Mots clés en anglais, séprarés par des , / Keywords in english, separated by ,
+\newcommand{\abstractEN}{This thesis advances Uncertainty Quantification (UQ) methodologies for complex computational models, motivated by the computational and physical challenges of in-flight icing and aerospace research. The work is divided into two main contributions. First, it addresses Bayesian inverse problems in the presence of model error by proposing the Complete Maximum a Posteriori (CMP) method. This novel modular framework effectively manages model error while preserving the natural flow of uncertainty, and is efficiently accelerated using multi-output Gaussian Processes. The CMP method is applied to a challenging hypersonic test case in collaboration with the von Karman Institute for Fluid Dynamics. It successfully reconstructs the catalytic efficiencies of Thermal Protection Materials and estimates reservoir total temperature from Plasmatron heat-flux measurements, robustly handling measurement biases and intrinsic model inadequacies. Second, the thesis tackles the forward UQ bottleneck by introducing an autonomous, model-based clustering algorithm. This technique builds purely data-driven, piecewise-continuous emulators capable of accurately capturing discontinuous system responses without prior knowledge of the topology. Together, these methodologies constitute a significant leap forward in developing reliable, computationally efficient tools for complex, non-smooth engineering applications.}															%% Résumé en anglais / abstract in english
+
+\label{layout}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% Mise en page / Page layout      
+%%% NE RIEN MODIFIER / DO NOT MODIFY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\pagestyle{empty}
+
+%%% Logo de l'école doctorale. Le nom du fichier correspond au sigle de l'ED / Doctoral school logo. Filename correspond to doctoral school acronym
+%%% Les noms valides sont / Valid names are : EDMH, (EDIPP)
+\begin{textblock*}{61mm}(16mm,3mm)
+	\noindent\includegraphics[height=24mm]{media/ed/\logoEd.png}
+\end{textblock*}
+
+
+
+%%%Titre de la thèse en français / Thesis title in french
+\begin{center}
+\fcolorbox{black}{white}{\parbox{0.95\textwidth}{
+{\bf Titre:} \PhDTitleFR 
+\medskip
+
+%%%Mots clés en français, séprarés par des ; / Keywords in french, separated by ;
+{\bf Mots clés:} \keywordsFR 
+\vspace{-2mm}
+
+%%% Résumé en français / abstract in french
+\begin{multicols}{2}
+{\bf Résumé:} 
+\abstractFR 
+\end{multicols}
+}}
+\end{center}
+
+\vspace*{0mm}
+
+%%%Titre de la thèse en italien / Thesis title in italian
+\begin{center}
+\fcolorbox{black}{white}{\parbox{0.95\textwidth}{
+{\bf Titre:} \PhDTitleITA 
+\medskip
+
+%%%Mots clés en français, séprarés par des ; / Keywords in french, separated by ;
+{\bf Parole chiave:} \keywordsITA
+\vspace{-2mm}
+
+%%% Résumé en français / abstract in french
+\begin{multicols}{2}
+{\bf Riassunto:} 
+\abstractITA
+\end{multicols}
+}}
+\end{center}
+
+\vspace*{0mm}
+
+%%%Titre de la thèse en anglais / Thesis title in english
+\begin{center}
+\fcolorbox{black}{white}{\parbox{0.95\textwidth}{
+{\bf Title:} \PhDTitleEN 
+
+\medskip
+
+%%%Mots clés en anglais, séprarés par des ; / Keywords in english, separated by ;
+{\bf Keywords:}  \keywordsEN %%3 à 6 mots clés%%
+\vspace{-2mm}
+\begin{multicols}{2}
+	
+%%% Résumé en anglais / abstract in english
+{\bf Abstract:} 
+\abstractEN
+\end{multicols}
+}}
+\end{center}
+
+
+\begin{textblock*}{161mm}(10mm,270mm)
+\color{black}
+{\bf\noindent Institut Polytechnique de Paris	         }
+
+\noindent
+\noindent 91120 Palaiseau, France 
+\end{textblock*}
+
+\begin{textblock*}{20mm}(175mm,265mm)
+\includegraphics[width=20mm]{media/IPPARIS-petit}
+\end{textblock*}
+
+\end{document}

@@ -1,0 +1,161 @@
+% \addchap automatically adds an unnumbered chapter to the Table of Contents (KOMA-Script feature)
+\addchap{List of Symbols and Notation}
+
+This thesis utilizes a strict notational convention to distinguish between different mathematical entities, operators, and functional spaces. To ensure clarity, the notation is divided into two main categories: Algebraic, Topological, and Functional notation, and Probabilistic and Statistical notation.
+
+\vspace{1em}
+
+% ==========================================
+% TABLE 1: ALGEBRA, TOPOLOGY, AND CALCULUS
+% ==========================================
+\begin{longtable}{@{} l p{11cm} @{}}
+\caption{Algebraic, Topological, and Calculus Notation} \label{tab:notation_algebra} \\
+\toprule
+\textbf{Symbol} & \textbf{Description} \\
+\midrule
+\endfirsthead
+
+\multicolumn{2}{c}{{\tablename\ \thetable{} -- continued from previous page}} \\
+\toprule
+\textbf{Symbol} & \textbf{Description} \\
+\midrule
+\endhead
+
+\midrule
+\multicolumn{2}{r}{{Continued on next page...}} \\
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+% --- Scalars and Indices ---
+\multicolumn{2}{@{}l}{\textbf{Scalars, Indices, and Constants}} \\
+\midrule
+$x, y, z$ & Scalar variables or individual elements of a set \\
+$i, j, k, m, n, l$ & Integer indices \\
+$d$ & Dimension of a vector or input space \\
+$L, N, M$ & Upper bounds for sequences, total number of classes, or total samples \\
+$\nobs$ & Total number of observations \\
+$A, B, C, \ldots$ & Special variables \\
+$\mathrm{b}, \mathrm{C}$ & Specific scalar constants, tuning parameters, or bias terms \\
+$\ell$ & A (correlation) length \\
+$\mathcal{E}$ & A (loss) error function \\
+\addlinespace
+
+% --- Vectors and Matrices ---
+\multicolumn{2}{@{}l}{\textbf{Vectors and Matrices}} \\
+\midrule
+$\mathbf{x}, \boldsymbol{\mu}$ & Column vectors \\
+$\mathbf{x}^{\top}$ & Transpose of a vector (row vector) \\
+$\mathbf{X}, \mathbf{K}, \mathbf{\Sigma}$ & Matrices \\
+$\mathbf{I}_d$ & Identity matrix of dimension $d \times d$ \\
+$\mathbf{0}, \mathbf{1}$ & Vectors or matrices of all zeros or all ones \\
+$\mathbf{x}_i$ & The $i$-th vector in a dataset or sequence \\
+$[\mathbf{X}]_{ij}$ & The scalar element in the $i$-th row and $j$-th column of matrix $\mathbf{X}$ \\
+\addlinespace
+
+% --- Matrix Operations and Functions ---
+\multicolumn{2}{@{}l}{\textbf{Matrix Operations and Functions of Matrices}} \\
+\midrule
+$\mathbf{A}^{-1}$ & Inverse of a square matrix $\mathbf{A}$ \\
+$\mathbf{A}^{1/2}$ & Principal square root or Cholesky factor (lower triangular) such that $\mathbf{A} = \mathbf{A}^{1/2}(\mathbf{A}^{1/2})^{\top}$ \\
+$\det(\mathbf{A})$& Determinant of matrix $\mathbf{A}$ \\
+$\mathrm{Tr}(\mathbf{A})$ & Trace of matrix $\mathbf{A}$ (sum of diagonal elements) \\
+$\mathrm{Sym}(\mathbf{A})$ & Symmetric part of matrix $\mathbf{A}$, defined as $\frac{1}{2}(\mathbf{A} + \mathbf{A}^{\top})$ \\
+$\|\mathbf{x}\|_2$ & $L_2$ norm of vector $\mathbf{x}$ \\
+$\|\mathbf{x}\|_{\mathbf{A}}$ & Mahalanobis norm of vector $\mathbf{x}$ with respect to positive definite matrix $\mathbf{A}$, defined as $\sqrt{\mathbf{x}^{\top} \mathbf{A}^{-1} \mathbf{x}}$ \\
+$\langle \mathbf{x}, \mathbf{y} \rangle$ & Inner (dot) product between two vectors or functions \\
+\addlinespace
+
+% --- Sets and Topological Spaces ---
+\multicolumn{2}{@{}l}{\textbf{Sets and Topological Spaces}} \\
+\midrule
+$\data$ & Set of data points \\
+$\Omega, \Theta, X$ & Continuous domains, input spaces, or parameter spaces \\
+$\mathbb{R}^{d}$ & $d$-dimensional Euclidean space \\
+$|\data|$ & Cardinality (number of elements) of a set $\data$ \\
+$\subset, \subseteq, \in$ & Proper subset, subset, and set membership \\
+\addlinespace
+
+% --- Functions and Calculus ---
+\multicolumn{2}{@{}l}{\textbf{Functions, Calculus, and Optimization}} \\
+\midrule
+$f: X \to Y$ & A function $f$ mapping from domain $X$ to codomain $Y$ \\
+$f(\cdot; \boldsymbol{\theta})$ or $f_{\boldsymbol{\theta}}(\cdot)$ & A function parameterized by $\boldsymbol{\theta}$ \\
+$\bpsi_{\btheta}$ & A quantity/function parameterized by $\boldsymbol{\theta}$ \\
+$\nabla f(\mathbf{x})$ & Gradient vector of $f$ with respect to $\mathbf{x}$ at $\mathbf{x}$ \\
+$\partial_{x_i} f(\mathbf{x})$ & Partial derivative of $f$ with respect to $x_i$ at $\mathbf{x}$ \\
+$\argmin_{\mathbf{x}}, \argmax_{\mathbf{x}}$ & The argument $\mathbf{x}$ that minimizes or maximizes the objective function \\
+$\mathcal{M}, \mathcal{J}$ & Operators \\
+$\delta(\cdot)$ & Dirac delta function \\
+$\delta_{ij}$ & Kronecker delta function \\
+
+\multicolumn{2}{@{}l}{\textbf{Functions of Matrices}} \\
+\midrule
+$m(\mathbf{X})$ & A vector $\mathbf{m}$ such that $[\mathbf{m}]_i = m(\mathbf{x}_i)$ for a function $m: X \to \mathbb{R}$. Here $\bx_i$ is the $i$-th row of $\mathbf{X}$ \\
+$k(\mathbf{X}, \mathbf{Y})$ & A matrix $\mathbf{K}$ such that $[\mathbf{K}]_{ij} = k(\mathbf{x}_i, \mathbf{y}_j)$ for a function $k: X \times Y \to \mathbb{R}$. Here $\bx_i$ and $\mathbf{y}_j$ are the $i$-th and $j$-th rows of $\mathbf{X}$ and $\mathbf{Y}$, respectively \\
+$k(\mathbf{x}, \mathbf{Y})$ & A vector $\mathbf{k}$ such that $[\mathbf{k}]_i = k(\mathbf{x}, \mathbf{y}_j)$ for a function $k: X \times Y \to \mathbb{R}$. Here $\bx$ is the $i$-th row of $\mathbf{X}$ and $\mathbf{y}_j$ is the $j$-th row of $\mathbf{Y}$ \\
+\end{longtable}
+
+\newpage
+
+% ==========================================
+% TABLE 2: PROBABILITY, STATISTICS, AND ML
+% ==========================================
+\begin{longtable}{@{} l p{11cm} @{}}
+\caption{Probabilistic, Statistical, and Machine Learning Notation} \label{tab:notation_stats} \\
+\toprule
+\textbf{Symbol} & \textbf{Description} \\
+\midrule
+\endfirsthead
+
+\multicolumn{2}{c}{{\tablename\ \thetable{} - continued from previous page}} \\
+\toprule
+\textbf{Symbol} & \textbf{Description} \\
+\midrule
+\endhead
+
+\midrule
+\multicolumn{2}{r}{{Continued on next page\ldots}} \\
+\endfoot
+
+\bottomrule
+\endlastfoot
+
+% --- Probability and Measure Theory ---
+\multicolumn{2}{@{}l}{\textbf{Probability and Measure Theory}} \\
+\midrule
+$\mathbb{P}(A)$ & Probability of an event $A$ \\
+$\mathbb{P}(\mathrm{d}\mathbf{x})$ & A probability measure defined on a domain \\
+$\mathrm{p}(\mathbf{x})$ & Probability density function (PDF) \\
+$\pi(\mathbf{x})$ & Prior distribution \\
+$\mathrm{p}(\mathbf{y} \mid \boldsymbol{\theta})$ & Conditional probability density (posteriors) \\
+$\propto$ & Is proportional to (often dropping the normalization constant) \\
+$f^{(w)}(\cdot)$ & A random realization of a process\\
+\addlinespace
+
+% --- Expectations and Moments ---
+\multicolumn{2}{@{}l}{\textbf{Expectations and Moments}} \\
+\midrule
+$\mathbb{E}[x]$ & Expected value of a random variable $x$ \\
+$\mathbb{V}[x]$ & Variance of a random variable $x$ \\
+$\mathrm{Cov}(x, y)$ & Covariance between random variables $x$ and $y$ \\
+$\mathbb{E}_{\omega}[f^{(w)}(\cdot)]$ and $\mathbb{V}_{\omega}[f^{(w)}(\cdot)]$ & Expected value and variance of a random process $f^{(w)}(\cdot)$ \\
+$\mathbb{E}[\cdot \mid \data]$ and $\mathbb{V}[\cdot \mid \data]$ & Conditional expected value and variance given the data $\data$ \\
+\addlinespace
+
+% --- Standard Distributions ---
+\multicolumn{2}{@{}l}{\textbf{Standard Probability Distributions}} \\
+\midrule
+$\mathcal{N}(\mu,\sigma)$ & Gaussian distribution with mean $\mu$ and standard deviation $\sigma$ \\
+$\mathcal{GP}(m_{\boldsymbol{\psi}}, k_{\boldsymbol{\psi}})$ & Gaussian Process with mean function $m_{\boldsymbol{\psi}}$ and covariance function $k_{\boldsymbol{\psi}}$ \\
+$\mathcal{N}(x; \mu,\sigma)$ & Value of the Gaussian PDF at $x$ with mean $\mu$ and standard deviation $\sigma$ \\
+\addlinespace
+
+% --- Estimators and Machine Learning Specifics ---
+\multicolumn{2}{@{}l}{\textbf{Estimators and Machine Learning Constructs}} \\
+\midrule
+$\hat{\boldsymbol{\theta}}, \hat{I}$ & Empirical estimator of a parameter $\boldsymbol{\theta}$ or integral $I$ \\
+$\boldsymbol{\theta}^\star$ & The true parameter value or the optimal solution \\
+$\tilde{f}(\cdot)$ & A surrogate model or approximation of a function $f(\cdot)$ \\
+\end{longtable}

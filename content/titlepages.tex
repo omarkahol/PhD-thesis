@@ -1,0 +1,197 @@
+% !TEX root = ../my-thesis.tex
+%
+\ifnum\thesisUseIPPCovers=1\relax
+\IfFileExists{\thesisFrontPagePDF}{%
+\includepdf[pages=1]{\thesisFrontPagePDF}
+}{%
+% ------------------------------------  --> cover title page
+\begin{titlepage}
+    \pdfbookmark[0]{Cover}{Cover}
+    \flushright
+    \hfill
+    \vfill
+    {\LARGE\thesisTitle \par}
+    \rule[5pt]{\textwidth}{.4pt} \par
+    {\Large\thesisName}
+    \vfill
+    \textit{\large\thesisDate} \\
+    Version: Final Draft
+\end{titlepage}
+
+
+% ------------------------------------  --> main title page
+\begin{titlepage}
+    \pdfbookmark[0]{Titlepage}{Titlepage}
+    \tgherosfont
+    \centering
+
+    % Institution A Block
+    {\Large \thesisUniversityA} \\[1mm]
+    {\small\textsf{\thesisUniversityDepartmentA \ $\cdot$ \ \thesisUniversityInstituteA \ $\cdot$ \ \thesisUniversityGroupA}} \\[4mm]
+    
+    % Institution B Block
+    {\Large \thesisUniversityB} \\[1mm]
+    {\small\textsf{\thesisUniversityDepartmentB \ $\cdot$ \ \thesisUniversityInstituteB \ $\cdot$ \ \thesisUniversityGroupB}} \\[6mm]
+    
+    \includegraphics[width=5cm]{gfx/Clean-Thesis-Logo} \\[2mm]
+
+    \vfill
+    {\large \thesisSubject} \\[5mm]
+    {\LARGE \color{ctcolortitle}\textbf{\thesisTitle} \\[10mm]}
+    {\Large \thesisName} \\
+
+    \vfill
+    \begin{minipage}[t]{.27\textwidth}
+        \raggedleft
+        \textit{1. Reviewer}
+    \end{minipage}
+    \hspace*{15pt}
+    \begin{minipage}[t]{.65\textwidth}
+        {\Large \thesisFirstReviewer} \\
+        {\small \thesisFirstReviewerDepartment} \\[-1mm]
+        {\small \thesisFirstReviewerUniversity}
+    \end{minipage} \\[5mm]
+    \begin{minipage}[t]{.27\textwidth}
+        \raggedleft
+        \textit{2. Reviewer}
+    \end{minipage}
+    \hspace*{15pt}
+    \begin{minipage}[t]{.65\textwidth}
+        {\Large \thesisSecondReviewer} \\
+        {\small \thesisSecondReviewerDepartment} \\[-1mm]
+        {\small \thesisSecondReviewerUniversity}
+    \end{minipage} \\[10mm]
+    \begin{minipage}[t]{.27\textwidth}
+        \raggedleft
+        \textit{Supervisors}
+    \end{minipage}
+    \hspace*{15pt}
+    \begin{minipage}[t]{.65\textwidth}
+        \thesisFirstSupervisor\ and \thesisSecondSupervisor
+    \end{minipage} \\[10mm]
+
+    \thesisDate \\
+
+\end{titlepage}
+
+
+% ------------------------------------  --> lower title back for single page layout
+\hfill
+\vfill
+{
+    \small
+    \textbf{\thesisName} \\
+    \textit{\thesisTitle} \\
+    \thesisSubject, \thesisDate \\
+    Reviewers: \thesisFirstReviewer\ and \thesisSecondReviewer \\
+    Supervisors: \thesisFirstSupervisor\ and \thesisSecondSupervisor \\[1.5em]
+    
+    \textbf{\thesisUniversityA} \\
+    \textit{\thesisUniversityGroupA} \\
+    \thesisUniversityInstituteA\ $\cdot$ \thesisUniversityDepartmentA \\
+    \thesisUniversityStreetAddressA \\
+    \thesisUniversityPostalCodeA\ \thesisUniversityCityA \\[1em]
+    
+    \textbf{\thesisUniversityB} \\
+    \textit{\thesisUniversityGroupB} \\
+    \thesisUniversityInstituteB\ $\cdot$ \thesisUniversityDepartmentB \\
+    \thesisUniversityStreetAddressB \\
+    \thesisUniversityPostalCodeB\ \thesisUniversityCityB
+}
+}
+\else
+% ------------------------------------  --> cover title page
+\begin{titlepage}
+    \pdfbookmark[0]{Cover}{Cover}
+    \flushright
+    \hfill
+    \vfill
+    {\LARGE\thesisTitle \par}
+    \rule[5pt]{\textwidth}{.4pt} \par
+    {\Large\thesisName}
+    \vfill
+    \textit{\large\thesisDate} \\
+    Version: \thesisVersion
+\end{titlepage}
+
+
+% ------------------------------------  --> main title page
+\begin{titlepage}
+    \pdfbookmark[0]{Titlepage}{Titlepage}
+    \tgherosfont
+    \centering
+
+    % Institution A Block
+    {\Large \thesisUniversityA} \\[1mm]
+    {\small\textsf{\thesisUniversityDepartmentA \ $\cdot$ \ \thesisUniversityInstituteA \ $\cdot$ \ \thesisUniversityGroupA}} \\[4mm]
+    
+    % Institution B Block
+    {\Large \thesisUniversityB} \\[1mm]
+    {\small\textsf{\thesisUniversityDepartmentB \ $\cdot$ \ \thesisUniversityInstituteB \ $\cdot$ \ \thesisUniversityGroupB}} \\[6mm]
+    
+    \includegraphics[width=5cm]{gfx/Clean-Thesis-Logo} \\[2mm]
+
+    \vfill
+    {\large \thesisSubject} \\[5mm]
+    {\LARGE \color{ctcolortitle}\textbf{\thesisTitle} \\[10mm]}
+    {\Large \thesisName} \\
+
+    \vfill
+    \begin{minipage}[t]{.27\textwidth}
+        \raggedleft
+        \textit{1. Reviewer}
+    \end{minipage}
+    \hspace*{15pt}
+    \begin{minipage}[t]{.65\textwidth}
+        {\Large \thesisFirstReviewer} \\
+        {\small \thesisFirstReviewerDepartment} \\[-1mm]
+        {\small \thesisFirstReviewerUniversity}
+    \end{minipage} \\[5mm]
+    \begin{minipage}[t]{.27\textwidth}
+        \raggedleft
+        \textit{2. Reviewer}
+    \end{minipage}
+    \hspace*{15pt}
+    \begin{minipage}[t]{.65\textwidth}
+        {\Large \thesisSecondReviewer} \\
+        {\small \thesisSecondReviewerDepartment} \\[-1mm]
+        {\small \thesisSecondReviewerUniversity}
+    \end{minipage} \\[10mm]
+    \begin{minipage}[t]{.27\textwidth}
+        \raggedleft
+        \textit{Supervisors}
+    \end{minipage}
+    \hspace*{15pt}
+    \begin{minipage}[t]{.65\textwidth}
+        \thesisFirstSupervisor\ and \thesisSecondSupervisor
+    \end{minipage} \\[10mm]
+
+    \thesisDate \\
+
+\end{titlepage}
+
+
+% ------------------------------------  --> lower title back for single page layout
+\hfill
+\vfill
+{
+    \small
+    \textbf{\thesisName} \\
+    \textit{\thesisTitle} \\
+    \thesisSubject, \thesisDate \\
+    Reviewers: \thesisFirstReviewer\ and \thesisSecondReviewer \\
+    Supervisors: \thesisFirstSupervisor\ and \thesisSecondSupervisor \\[1.5em]
+    
+    \textbf{\thesisUniversityA} \\
+    \textit{\thesisUniversityGroupA} \\
+    \thesisUniversityInstituteA\ $\cdot$ \thesisUniversityDepartmentA \\
+    \thesisUniversityStreetAddressA \\
+    \thesisUniversityPostalCodeA\ \thesisUniversityCityA \\[1em]
+    
+    \textbf{\thesisUniversityB} \\
+    \textit{\thesisUniversityGroupB} \\
+    \thesisUniversityInstituteB\ $\cdot$ \thesisUniversityDepartmentB \\
+    \thesisUniversityStreetAddressB \\
+    \thesisUniversityPostalCodeB\ \thesisUniversityCityB
+}
+\fi

@@ -1,0 +1,56 @@
+# LaTeX build files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.brf
+*.fdb_latexmk
+*.fls
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.xdv
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# PDFs
+*.pdf
+!figures/**/*.pdf
+!Presentation/figures/**/*.pdf
+!Presentation/sources/**/*.pdf
+!IPP/media/**/*.pdf
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build and Cache Directories
+.build/
+.notebook/
+.agents/
+
+# Backup files
+*.bak

@@ -1,0 +1,270 @@
+% !TEX root = my-thesis.tex
+
+
+% **************************************************
+% Files' Character Encoding
+% **************************************************
+\PassOptionsToPackage{utf8}{inputenc}
+\usepackage{inputenc}
+\PassOptionsToPackage{bookmarks,colorlinks,breaklinks}{hyperref}
+
+
+% **************************************************
+% Information and Commands for Reuse (Double PhD)
+% **************************************************
+\newcommand{\thesisTitle}{Robust Bayesian Calibration and Emulation for Complex Computer Models}
+\newcommand{\thesisName}{Omar Kahol}
+\newcommand{\thesisSubject}{Aerospace Engineering}
+\newcommand{\thesisDate}{\today}
+\newcommand{\thesisVersion}{Examination Draft}
+
+\newcommand{\thesisFirstReviewer}{Gianluigi Rozza}
+\newcommand{\thesisFirstReviewerUniversity}{\protect{SISSA - Scuola Internazionale Superiore di Studi Avanzati}}
+\newcommand{\thesisFirstReviewerDepartment}{Area Matematica / mathLab}
+
+\newcommand{\thesisSecondReviewer}{Amandine Marrel}
+\newcommand{\thesisSecondReviewerUniversity}{\protect{CEA Cadarache \& Institut de Math\'ematiques de Toulouse}}
+\newcommand{\thesisSecondReviewerDepartment}{IRESNE / DER (Cadarache)}
+
+\newcommand{\thesisFirstSupervisor}{Pietro Marco Congedo}
+\newcommand{\thesisSecondSupervisor}{Enora Denimal Goy and Giulio Gori}
+
+% --- INSTITUTION A: École Polytechnique ---
+\newcommand{\thesisUniversityA}{\protect{Host Institution: \'Ecole Polytechnique}}
+\newcommand{\thesisUniversityDepartmentA}{Centre de Math\'ematiques Appliqu\'ees (CMAP)}
+\newcommand{\thesisUniversityInstituteA}{\protect{Institut Polytechnique de Paris}}
+\newcommand{\thesisUniversityGroupA}{Team Platon}
+\newcommand{\thesisUniversityCityA}{Palaiseau (FR)}
+\newcommand{\thesisUniversityStreetAddressA}{1, rue Honor\'e d'Estienne d'Orves}
+\newcommand{\thesisUniversityPostalCodeA}{91120}
+
+% --- INSTITUTION B: Politecnico di Milano ---
+\newcommand{\thesisUniversityB}{\protect{Joint Institution: Politecnico di Milano}}
+\newcommand{\thesisUniversityDepartmentB}{Dipartimento di Scienze e Tecnologie Aerospaziali (DAER)}
+\newcommand{\thesisUniversityInstituteB}{\protect{Politecnico di Milano}}
+\newcommand{\thesisUniversityGroupB}{PFDLab - Physical Fluid Dynamics Laboratory}
+\newcommand{\thesisUniversityCityB}{Milano (IT)}
+\newcommand{\thesisUniversityStreetAddressB}{Via La Masa 34}
+\newcommand{\thesisUniversityPostalCodeB}{20156}
+
+\newcommand{\blue}[1]{\textcolor{black}{#1}}
+\newcommand{\red}[1]{\textcolor{black}{#1}}
+
+
+% **************************************************
+% Debug LaTeX Information
+% **************************************************
+%\listfiles
+
+
+% **************************************************
+% Load and Configure Packages
+% **************************************************
+\usepackage[english]{babel} % babel system, adjust the language of the content
+\PassOptionsToPackage{% setup clean thesis style
+    figuresep=colon,%
+    hangfigurecaption=false,%
+    hangsection=true,%
+    hangsubsection=true,%
+    sansserif=false,%
+    configurelistings=true,%
+    colorize=full,%
+    colortheme=bluemagenta,%
+    configurebiblatex=true,%
+    bibsys=biber,%
+    bibfile=bib-refs,%
+    bibstyle=alphabetic,%
+    bibsorting=nty,%
+}{cleanthesis}
+\usepackage{cleanthesis}
+
+\hypersetup{% setup the hyperref-package options
+    pdftitle={\thesisTitle},    %   - title (PDF meta)
+    pdfsubject={\thesisSubject},%   - subject (PDF meta)
+    pdfauthor={\thesisName},    %   - author (PDF meta)
+    plainpages=false,           %   -
+    colorlinks=true,            %   - colorize links?
+    linkcolor=black,            %   - black links for printed output
+    citecolor=black,            %   - black citation links
+    filecolor=black,            %   - black file links
+    urlcolor=black,             %   - black URL links
+    pdfborder={0 0 0},          %   -
+    breaklinks=true,            %   - allow line break inside links
+    bookmarksnumbered=true,     %
+    bookmarksopen=true          %
+}
+
+% **************************************************
+% Other Packages
+% **************************************************
+\usepackage{gensymb}
+\usepackage[OT1]{fontenc}
+\usepackage{subcaption} % Provides subfigure environment
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
+\usepackage{accents}
+\usepackage{siunitx}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\usepackage{soul}
+\usepackage{scrhack}
+\usepackage{pdfpages}
+\usepackage{algorithm, algpseudocode}
+\usepackage{booktabs}  % For \toprule, \midrule, \bottomrule
+\usepackage{longtable} % For the multi-page table environment
+\usepackage{xurl}
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{8000}
+\setcounter{biburlnumpenalty}{7000}
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\do\_}
+\makeatother
+
+\newcommand{\REQUIRE}{\textbf{Input: }}
+\newcommand{\ENSURE}{\textbf{Output: }}
+
+\usepackage{tikz}
+% Required libraries for patterns (wall) and decorations (spring)
+\usetikzlibrary{patterns, decorations.pathmorphing, calc, arrows.meta, positioning, fit, tikzmark}
+\usetikzlibrary{positioning, arrows.meta, shapes, calc, decorations.pathreplacing, fit, patterns, shapes.geometric}
+\usepackage[normalem]{ulem}
+\newcommand{\colorstrikethrough}[2]{\textcolor{#1}{\sout{#2}}}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+\usepgfplotslibrary{fillbetween}
+\pgfplotsset{
+    myaxis/.style={
+        width=7cm, 
+        height=5cm,
+        axis lines=left,
+        xlabel={}, 
+        ylabel={}, 
+        xtick=\empty, 
+        ytick=\empty,
+        ymin=-3, ymax=3,
+        xmin=0, xmax=6,
+        domain=0:6, samples=100, no markers,
+        axis line style={-},
+    }
+}
+
+% Load longtable for tabular glossary alignments
+\usepackage{longtable} 
+
+% Add 'nogroupskip' and 'style=long' to your options
+\usepackage[acronym,symbols,toc,nogroupskip,style=long]{glossaries-extra}
+% Restore the clean-thesis color to the glossary labels
+\renewcommand{\glsnamefont}[1]{\textcolor{ctcolortitle}{\textbf{#1}}}
+
+% Choose a style for acronyms (spells out on first use, shortens after)
+\setabbreviationstyle[acronym]{long-short}
+
+% Generate the glossaries
+\makeglossaries
+
+% **************************************************
+% Custom Commands
+% **************************************************
+% Names 
+\newcommand{\cmp}{\text{CMP}}
+\newcommand{\fmp}{\text{FMP}}
+\newcommand{\koh}{\text{KOH}}
+\newcommand{\map}{\text{MAP}}
+
+
+% Sets 
+\newcommand{\reals}{\mathbb{R}}
+
+% Bold symbols
+\newcommand{\btheta}{\boldsymbol{\theta}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bt}{\boldsymbol{t}}
+\newcommand{\bz}{\boldsymbol{z}}
+\newcommand{\bY}{\boldsymbol{\mathcal{Y}}}
+\newcommand{\bres}{\mathbf{r}_{\btheta}}
+\newcommand{\bpsi}{\boldsymbol{\psi}}
+\newcommand{\beps}{\boldsymbol{\epsilon}}
+\newcommand{\balpha}{\boldsymbol{\alpha}}
+\newcommand{\rr}{\bres^{\top} \bres}
+\newcommand{\bphi}{\boldsymbol{\phi}}
+\newcommand{\abs}[1]{\left| #1 \right|}
+
+% Others
+\newcommand{\gpmean}{\mu_{\boldsymbol{\psi}_z}}
+\newcommand{\gpcov}{c_{\boldsymbol{\psi}_z}}
+\newcommand{\detf}[1]{\mathrm{det}\left(#1\right)}
+\newcommand{\muh}{\hat{\mu}}
+
+% Basic quantities like model, observations, ...
+\newcommand{\data}{\mathcal{D}}
+
+\newcommand{\nobs}{N_{\mathrm{obs}}}
+\newcommand{\neval}{N_{\mathrm{eval}}}
+\newcommand{\neff}{N_{\mathrm{eff}}}
+\newcommand{\ntrain}{N_{\mathrm{train}}}
+\newcommand{\niter}{N_{\mathrm{iter}}}
+\newcommand{\nhyper}{N_{\mathrm{hyper}}}
+\newcommand{\ncand}{N_{\mathrm{cand}}}
+\newcommand{\nresample}{N_{\mathrm{res}}}
+
+\newcommand{\model}{\mathcal{M}}
+\newcommand{\observable}{\mathcal{G}}
+\newcommand{\yobs}{y_{\mathrm{obs}}}
+\newcommand{\xobs}{\boldsymbol{x}_{\mathrm{obs}}}
+\newcommand{\kernel}{\boldsymbol{K}_{\boldsymbol{\psi}_z}}
+\newcommand{\identity}{\boldsymbol{I}_N}
+
+% Integrals and sums 
+\newcommand{\summ}[3]{\displaystyle \sum_{#1=#2}^{#3}}
+\newcommand{\dd}{\text{d}}
+\newcommand{\intpsi}[1]{\displaystyle\int_{\Psi} \ #1 \ \text{d} \boldsymbol{\psi}}
+\newcommand{\intphi}[1]{\displaystyle\int_{\Phi} \ #1 \ \text{d} \bphi}
+\newcommand{\intt}[1]{\displaystyle \int_{\Theta} \ #1 \ \text{d} \boldsymbol{\theta}}
+
+% New commands for Probability distributions 
+\newcommand{\likelihood}[1]{\mathrm{p} \left( #1 \right)} % likelihood
+\newcommand{\prior}[1]{\pi \left( #1\right)} % prior 
+\newcommand{\p}[1]{\mathrm{p} \left( #1 \right)} % pdf
+\newcommand{\pq}[1]{\mathrm{q} \left( #1 \right)} % un-normalized pdf
+\newcommand{\normalpdf}{\mathcal{N}}
+\newcommand{\approxp}[2]{\mathrm{p}_{#1} \left( #2 \right)}
+\newcommand{\argp}[2]{\mathrm{p}_{_{#1}} \left( #2 \right)}
+
+% Common quantities 
+\newcommand{\psimap}{\boldsymbol{\psi}_{\boldsymbol{\theta}}} 
+\newcommand{\phimap}{\boldsymbol{\phi}_{_\text{MAP}} \left( \boldsymbol{\theta} \right)} 
+\newcommand{\psikoh}{\boldsymbol{\psi}_{_\text{KOH}}}
+\newcommand{\Stheta}{\mathbf{S}_{\btheta}}
+\newcommand{\hessian}[1]{\mathcal{H}_{#1}}
+\newcommand{\ubar}[1]{\underaccent{\bar}{#1}}
+
+% Operators 
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\newcommand{\expectation}[2]{\mathbb{E}_{#1} \left[ \ #2 \ \right]}
+\newcommand{\trace}[1]{\text{trace} \left( #1 \right)}
+\newcommand{\appropto}{\mathrel{\vcenter{
+  \offinterlineskip\halign{\hfil$##$\cr
+    \propto\cr\noalign{\kern2pt}\sim\cr\noalign{\kern-2pt}}}}}
+
+
+
+% **************************************************
+% External Mandatory Cover Pages (IPP)
+% **************************************************
+% Toggle cover inclusion:
+% 1 = include IPP PDF covers when available, 0 = use internal LaTeX title/colophon pages.
+% This can also be overridden from the build command line.
+\providecommand{\thesisUseIPPCovers}{1}
+% Toggle title-page inclusion:
+% 1 = include titlepages, 0 = skip and start front matter from abstract.
+\providecommand{\thesisIncludeTitlePages}{1}
+
+% Authoritative sources (edit these files):
+\newcommand{\thesisFrontPageTex}{IPP/1ere.tex}
+\newcommand{\thesisBackPageTex}{IPP/4eme.tex}
+% Generated outputs (included in the main thesis):
+\newcommand{\thesisFrontPagePDF}{IPP/1ere.pdf}
+\newcommand{\thesisBackPagePDF}{IPP/4eme.pdf}
