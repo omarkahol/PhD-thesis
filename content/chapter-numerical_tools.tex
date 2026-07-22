@@ -671,7 +671,7 @@ In this section, we discuss the problem of classification, which is a fundamenta
 Similar to regression, classification is the task of learning a mapping from a set of input $\bx \in \Omega \subset \mathbb{R}^d$ to a set of discrete labels $z \in \{1, \ldots, L\}$. The difference with regression is that in classification, the output is a discrete label rather than a continuous value. We call the set of observations $\mathcal{D} = \{(\bx_i, z_i)\}_{i=1}^{\nobs}$, where $\bx_i$ is the $i$-th observation and $z_i$ is the corresponding label. 
 
 \smallskip
-Discriminative classifiers learn the conditional distribution $\mathrm{p}(z \mid \bx)$, which allows us to predict the label $z$ for a new observation $\bx$. Generative classifiers, on the other hand, learn the joint distribution $\mathrm{p}(\bx, z)$, which allows us to generate new observations $\bx$ given a label $z$. In this thesis, we focus on discriminative classifiers, which can be viewed as the task of learning a decision boundary that separates the different classes in the input space.
+Discriminative classifiers learn the conditional distribution $\mathbb{P}_{\mathrm{CLS}}(z \mid \bx)$, which allows us to predict the label $z$ for a new observation $\bx$. Generative classifiers, on the other hand, learn the joint distribution $\mathrm{p}(\bx, z)$, which allows us to generate new observations $\bx$ given a label $z$. In this thesis, we focus on discriminative classifiers, which can be viewed as the task of learning a decision boundary that separates the different classes in the input space.
 
 \begin{figure}[htbp]
 \centering
@@ -839,25 +839,25 @@ This strategy is simple and effective for many applications and it can handle ma
 The decision function of the \gls{svm}, given by Eq.~\eqref{eq:decision_function_kernel}, provides a score that indicates how far an input $\bx$ is from the decision boundary. However, this function has a co-domain of $\mathbb{R}$, which makes it difficult to interpret the output as a probability. 
 
 \smallskip
-Indeed, we would like to have a probabilistic interpretation of the output of the \gls{svm}, where the output represents the probability that a given input $\bx$ belongs to a certain class. We denote this probability as $\mathbb{P}_{\mathrm{SVC}}(\bx \in \Omega_l) \text{ s.t. } \sum_{l=1}^L \mathbb{P}_{\mathrm{SVC}}(\bx \in \Omega_l) = 1$, which represents the probability that the input $\bx$ belongs to class $l$ according to the SVC (or equivalently, the probability that $\bx$ belongs to the subdomain $\Omega_l$).
+Indeed, we would like to have a probabilistic interpretation of the output of the \gls{svm}, where the output represents the probability that a given input $\bx$ belongs to a certain class. We denote this probability as $\mathbb{P}_{\mathrm{SVC}}(l \mid \bx) \text{ s.t. } \sum_{l=1}^L \mathbb{P}_{\mathrm{SVC}}(l \mid \bx) = 1$, which represents the probability that the input $\bx$ belongs to class $l$ according to the SVC.
 
 \smallskip
-To obtain probability estimates from the \gls{svc}, we can use a technique called Platt scaling~\cite{platt_2000,lin_2003}. The basic idea behind Platt scaling is that, in a \gls{ovo} setting, the decision function of each binary classifier can be passed through a sigmoid function to obtain a probability estimate for the binary classification problem. Specifically, for each binary classifier that separates class $l$ from class $m$, we can compute the probability that an input $\bx$ belongs to class $l$, $\mathbb{P}_{\mathrm{SVC}}(\bx \in \Omega_l \mid \bx \in \Omega_l \cup \Omega_m)$, as follows:
+To obtain probability estimates from the \gls{svc}, we can use a technique called Platt scaling~\cite{platt_2000,lin_2003}. The basic idea behind Platt scaling is that, in a \gls{ovo} setting, the decision function of each binary classifier can be passed through a sigmoid function to obtain a probability estimate for the binary classification problem. Specifically, for each binary classifier that separates class $l$ from class $m$, we can compute the probability that an input $\bx$ belongs to class $l$, $\mathbb{P}_{\mathrm{SVC}}(l \mid \bx, z \in \{l, m\})$, as follows:
 
 \begin{equation}
-  \mathbb{P}_{\mathrm{SVC}}(\bx \in \Omega_l \mid \bx \in \Omega_l \cup \Omega_m) = \frac{1}{1 + \exp{(A f_{lm}(\bx) + B)}}\;,
+  \mathbb{P}_{\mathrm{SVC}}(l \mid \bx, z \in \{l, m\}) = \frac{1}{1 + \exp{(A f_{lm}(\bx) + B)}}\;,
 \end{equation}
 
 where $A$ and $B$ are parameters that can be estimated via \gls{cv} on the training data, and $f_{lm}(\bx)$ is the decision function of the binary classifier that separates class $l$ from class $m$~\cite{libsvm}. Of course, we would like to have a single probability estimate for each class, rather than one for each pair of classes. To achieve this, we note that,
 
 \begin{equation}
 \begin{split}
-  &\mathbb{P}_{\mathrm{SVC}}(\bx \in \Omega_m \mid \bx \in \Omega_l \cup \Omega_m) \mathbb{P}_{\mathrm{SVC}}(\bx \in \Omega_l) = \\
-  & \mathbb{P}_{\mathrm{SVC}}(\bx \in \Omega_l \mid \bx \in \Omega_l \cup \Omega_m) \mathbb{P}_{\mathrm{SVC}}(\bx \in \Omega_m)\;,
+  &\mathbb{P}_{\mathrm{SVC}}(m \mid \bx, z \in \{l, m\}) \, \mathbb{P}_{\mathrm{SVC}}(l \mid \bx) = \\
+  &\mathbb{P}_{\mathrm{SVC}}(l \mid \bx, z \in \{l, m\}) \, \mathbb{P}_{\mathrm{SVC}}(m \mid \bx)\;,
 \end{split}
 \end{equation}
 
-which is just a restatement of Bayes' theorem. Since the probabilities $\mathbb{P}_{\mathrm{SVC}}(\bx \in \Omega_l)$ are unknown, we can use the above equation (which must hold for all pairs of classes) to set up an optimization problem to solve for the probabilities $\mathbb{P}_{\mathrm{SVC}}(\bx \in \Omega_l)$~\cite{libsvm,wu_2004}.
+which is just a restatement of Bayes' theorem. Since the probabilities $\mathbb{P}_{\mathrm{SVC}}(l \mid \bx)$ are unknown, we can use the above equation (which must hold for all pairs of classes) to set up an optimization problem to solve for the probabilities $\mathbb{P}_{\mathrm{SVC}}(l \mid \bx)$~\cite{libsvm,wu_2004}.
 
 
 \subsection{Hyperparameter Selection}

@@ -2,22 +2,21 @@ PROJ = my-thesis
 LC = latexmk
 AUXSDIR = .build
 OPT = -halt-on-error
-# NOTE: If using biber/biblatex, consider removing '-bibtex' from ARGS below
-ARGS = -pdfxe -outdir=$(AUXSDIR) -pdfxelatex="xelatex $(OPT)" -use-make -bibtex
+ARGS = -pdfxe -outdir=$(AUXSDIR) -pdfxelatex="xelatex $(OPT)"
 IPP_DIR = IPP
 IPP_COVERS = 1ere.tex 4eme.tex
 SOURCES = $(PROJ).tex my-thesis-setup.tex cleanthesis.sty bib-refs.bib $(wildcard content/*.tex)
 
-# 'make' or 'make all' -> compiles thesis without covers
+# 'make' or 'make all' -> compiles thesis without covers into ./my-thesis.pdf
 all: fast
 
 # 'make fast' -> same as 'all'
 fast: setup-no-covers $(PROJ).pdf
 
-# 'make full' -> compiles thesis WITH IPP covers
+# 'make full' -> compiles thesis WITH IPP covers into ./my-thesis.pdf
 full: setup-covers $(PROJ).pdf
 
-# 'make chapters' -> compile each chapter separately into the chapters/ folder
+# 'make chapters' -> compile each chapter separately into the ./chapters/ folder
 chapters: setup-no-covers
 	mkdir -p $(AUXSDIR)/chapters/content
 	@for chap in content/chapter-*.tex; do \
@@ -27,7 +26,7 @@ chapters: setup-no-covers
 	done
 	mkdir -p chapters
 	cp $(AUXSDIR)/chapters/chapter-*.pdf chapters/
-	@echo "All chapters compiled into chapters/ directory."
+	@echo "All chapters compiled into ./chapters/ directory."
 
 # 'make chapter-<name>' -> compile a specific chapter (e.g., make chapter-introduction)
 chapter-%: content/chapter-%.tex setup-no-covers
@@ -36,7 +35,7 @@ chapter-%: content/chapter-%.tex setup-no-covers
 	$(LC) -pdfxe -outdir=$(AUXSDIR)/chapters -jobname=chapter-$* -pretex="\def\UseIncludeOnly{1} \includeonly{content/chapter-$*}" -usepretex $(PROJ).tex || exit 1
 	mkdir -p chapters
 	cp $(AUXSDIR)/chapters/chapter-$*.pdf chapters/
-	@echo "Chapter chapter-$* compiled into chapters/ directory."
+	@echo "Chapter chapter-$* compiled into ./chapters/ directory."
 
 
 # --- Main Compilation ---
@@ -64,15 +63,15 @@ $(PROJ).pdf : $(SOURCES)
 		fi; \
 		exit 1; \
 	}
-	mv .build/${PROJ}.pdf ./
+	mv $(AUXSDIR)/${PROJ}.pdf ./
 
 # --- Cover Toggles ---
 setup-no-covers:
-	mkdir -p $(AUXSDIR)
+	mkdir -p $(AUXSDIR)/content
 	printf '%s\n' '\renewcommand{\thesisUseIPPCovers}{0}' > $(AUXSDIR)/build-flags.tex
 
 setup-covers:
-	mkdir -p $(AUXSDIR)
+	mkdir -p $(AUXSDIR)/content
 	printf '%s\n' '\renewcommand{\thesisUseIPPCovers}{1}' > $(AUXSDIR)/build-flags.tex
 
 # --- Auxiliary Rules ---
@@ -82,6 +81,7 @@ covers:
 clean:
 	rm -rf $(AUXSDIR)
 	rm -f $(PROJ).pdf
+	rm -rf chapters
 	rm -rf Presentation/.build
 	rm -f Presentation/main.pdf
 

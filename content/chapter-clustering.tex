@@ -11,19 +11,19 @@ meilleur r\'esultat, tel doit \^etre le principal talent de l'homme\ldots}{Nicol
 \section{Introduction}
 \label{sec:clustering:intro}
 
-In this chapter, we present a model-based clustering scheme to build a piecewise reconstruction of a function $f$ from a set of observations $\data$. Recalling what has been discussed in \S\ref{sec:sota_2}, the goal is to construct a piecewise surrogate model of the form:
+In this chapter, we present a model-based clustering scheme to build a piecewise reconstruction of a function $f$ from a \gls{ndoe} $\data = \{(\bx_i, f_i)\}_{i=1}^{\nobs}$. To briefly recall what has been discussed in Chapter~\ref{sec:sota_2}, the goal is to construct a piecewise surrogate model of the form:
 
 \begin{equation}
-  \tilde{f}(\bx; \boldsymbol{\beta}, \mathcal{P}) = \sum_{l=1}^L \mathbb{I}_{\Omega_l}(\bx; \boldsymbol{\gamma}) \tilde{f}_l(\bx; \boldsymbol{\beta}_l) \;,
+  \tilde{f}(\bx; \boldsymbol{\beta}, \boldsymbol{\gamma}) = \sum_{l=1}^L \mathbb{I}_{\tilde{\Omega}_l}(\bx)\, \tilde{f}_l(\bx; \boldsymbol{\beta}_l) \;,
 \end{equation}
 
-where $\mathbb{I}_{\Omega_l}(\bx; \boldsymbol{\gamma})$ is the indicator function of the cluster $l$, which depends on the classifier hyperparameters $\boldsymbol{\gamma}$, and $\tilde{f}_l(\bx; \boldsymbol{\beta}_l)$ is the local surrogate model corresponding to cluster $l$, which depends on the local regressor hyperparameters $\boldsymbol{\beta}_l$. In \S\ref{sec:sota_2}, we have shown that solving this problem \blue{implies} solving a clustering problem, in which we need to identify a good \blue{partition $\mathcal{P}$} of the observations $\data$ into $L$ clusters, and a classifier $c(\cdot; \boldsymbol{\gamma})$ that can separate these clusters, and local regressors $\tilde{f}_l(\cdot; \boldsymbol{\beta}_l)$ that can fit the observations in each cluster. 
+where $\mathbb{I}_{\tilde{\Omega}_l}(\bx)$ is the indicator function of subdomain $\tilde{\Omega}_l(\boldsymbol{\gamma})$, and $\tilde{f}_l(\bx; \boldsymbol{\beta}_l)$ is the corresponding local surrogate model which depends on its hyperparameters $\boldsymbol{\beta}_l$. The vector $\boldsymbol{\beta} = \{\boldsymbol{\beta}_l\}_{l=1}^L$ contains the hyperparameters of all local regressors. In \S\ref{sec:sota_2}, we have shown that solving this problem \blue{implies} solving a clustering problem, in which we need to identify a good \blue{partition $\mathcal{P}$} of the observations $\data$ into $L$ clusters, and a classifier $c(\cdot; \boldsymbol{\gamma})$ that can separate these clusters, and local regressors $\tilde{f}_l(\cdot; \boldsymbol{\beta}_l)$ that can fit the observations in each cluster. 
 
 \smallskip
 This problem is particularly challenging as one needs to select values for the following hyperparameters: $\boldsymbol{\beta}, \boldsymbol{\gamma}, \mathbf{z}$. In this chapter, we shall adopt an optimization approach to solve this problem, in which we search for the optimal values of these hyperparameters by maximizing a global score function. The first part of the next section is dedicated to the definition of an appropriate score function that can capture the performance of the global piecewise reconstruction. 
 
 \smallskip
-On the other hand, even if such a score function, here termed $S_{\mathrm{global}}(\boldsymbol{\beta}, \boldsymbol{\gamma}, \mathbf{z})$, is well defined, it is not trivial to optimize it with respect to the hyperparameters $\boldsymbol{\beta}, \boldsymbol{\gamma}, \mathbf{z}$, as the optimization problem is non-convex and very high-dimensional. For this reason, we search for an alternate iterative optimization scheme, in which we iteratively update the cluster labels $\mathbf{z}$, the classifier hyperparameters $\boldsymbol{\gamma}$ and the surrogate model hyperparameters $\boldsymbol{\beta}$ until convergence. 
+On the other hand, even if such a score function, here termed $S_{\mathrm{global}}(\boldsymbol{\beta}, \boldsymbol{\gamma}, \mathbf{z})$, is well-defined, it is not trivial to optimize it with respect to the hyperparameters $\boldsymbol{\beta}, \boldsymbol{\gamma}, \mathbf{z}$, as the optimization problem is non-convex and very high-dimensional. For this reason, we search for an alternate iterative optimization scheme, in which we iteratively update the cluster labels $\mathbf{z}$, the classifier hyperparameters $\boldsymbol{\gamma}$ and the surrogate model hyperparameters $\boldsymbol{\beta}$ until convergence. 
 
 \smallskip
 We can start with a simple clustering $\mathbf{z}^{(0)}$, such as~\cite{Sudret2023,lloyd1982least}, and then iteratively refine it based on the performance of the surrogate model to obtain more accurate predictions. 
@@ -38,6 +38,9 @@ We can start with a simple clustering $\mathbf{z}^{(0)}$, such as~\cite{Sudret20
 
 Fig.~\ref{fig:sota_2:model_based_clustering} provides a schematic representation of the proposed \blue{clustering} algorithm \blue{for a function with a discontinuity represented by the red line}. \blue{The clustering is initialized} with a simple and possibly bad clustering $\mathbf{z}^{(0)}$, and then \blue{it is} iteratively refined based \blue{on the score function $S_{\mathrm{global}}(\boldsymbol{\beta}, \boldsymbol{\gamma}, \mathbf{z})$, reaching the final solution $\mathbf{z}^{(\star)}$.} The question is how to perform this \blue{iterative update}, i.e., how to update the cluster labels $\mathbf{z}$, the classifier hyperparameters $\boldsymbol{\gamma}$ and the surrogate model hyperparameters $\boldsymbol{\beta}$ at each iteration.
 
+\smallskip
+To simplify the notation, we are going to denote with $\mathcal{O} = \{1, \ldots, \nobs\}$ the set of indices of the data $\data$. Similarly, $\mathcal{O}_l = \{i \in \mathcal{O} : z_i = l\}$ denotes the set of indices of cluster $l$. This shall not be confused with the observation operator, also denoted with $\mathcal{O}(\cdot)$ in Chapter~\ref{sec:sota_2}.
+
 
 \section{Model Based Clustering Scheme}
 \label{sc:mc_algorithm}
@@ -48,14 +51,17 @@ Fig.~\ref{fig:sota_2:model_based_clustering} provides a schematic representation
 \subsection{Score Function Definition}
 \label{sec:clustering:mb:score}
 
-Defining an appropriate score function is not trivial, since we want to capture the global performance of a series of local regressors. To start, we have shown in Eq.~\eqref{eq:sota_2:error_decomposition} that the global error of a piecewise surrogate model can be decomposed into the sum of the local errors of the local regressors on their corresponding clusters. \blue{A first approach is to use} a proxy score function based on replacing the integral \blue{in Eq.~\eqref{eq:sota_2:error_decomposition}} with a sum over the observations \blue{of each cluster}, and the true function $f$ with the observed values $y_i$. Although appealing, this score function is a poor choice; training local regressors to minimize an error over the observations is known to be prone to overfitting. Luckily, practitioners are very well aware of this issue and have developed tailored score functions to be maximized during model selections. We have already introduced these functions in Eq.~\eqref{eq:sota_2:score_functions}, and termed them $S(\boldsymbol{\beta},\data)$. Since these are well established in the literature and constantly used in practice, we propose to use them as our score function by summing the local scores, i.e.,
+Defining an appropriate score function is not trivial, since we want to capture the global performance of a series of local regressors. To start, we have shown in Eq.~\eqref{eq:sota_2:error_decomposition} that the global error of a piecewise surrogate model can be decomposed into the sum of the local errors of the local regressors on their corresponding clusters. \blue{A first approach is to use} a proxy score function based on replacing the integral \blue{in Eq.~\eqref{eq:sota_2:error_decomposition}} with a sum over the observations \blue{of each cluster}, and the true function $f$ with the observed values $f_i$. Although appealing, this score function is a poor choice; training local regressors to minimize an error over the observations is known to be prone to over-fitting. Luckily, practitioners are very well aware of this issue and have developed tailored score functions to be maximized during model selections. We have already introduced these functions in Eq.~\eqref{eq:sota_2:score_functions}, and termed them $S(\boldsymbol{\beta},\data)$. Since these are well established in the literature and constantly used in practice, we propose to use them as our score function by summing the local scores, i.e.,
 
 \begin{equation}
   S_{\mathrm{global}}(\boldsymbol{\beta}, \mathbf{z}) = \summ{l}{1}{L} S(\boldsymbol{\beta}_l, \data_l(\mathbf{z})) \;.
   \label{eq:clustering:global_score}
 \end{equation}
 
-In the above equation, $\data_l(\mathbf{z})$ is the subset of observations belonging to cluster $l$ according to the cluster assignments $\mathbf{z}$, and $\boldsymbol{\beta}_l$ are the hyperparameters of the local regressor corresponding to cluster $l$, while $\boldsymbol{\beta} = \{\boldsymbol{\beta}_1, \ldots, \boldsymbol{\beta}_L\}$ is the set of all local regressor hyperparameters. Notice that the advantage of using the score function in Eq.~\eqref{eq:clustering:global_score} is that each local regressor can be trained independently by maximizing its local score. To us, this is a crucial property, as we are not altering well-established training procedures and can leverage existing codes, even gradient-based optimization algorithms, to perform model selection and define $\boldsymbol{\beta}_l$. To see this, we consider the gradient of the global score with respect to the hyperparameters of a local regressor $l$, $\boldsymbol{\beta}_l$,
+In the above equation, $\data_l(\mathbf{z}) = \{\mathbf{d}_i \in \data : i \in \mathcal{O}_l\}$ is the subset of observations belonging to cluster $l$ according to the cluster assignments $\mathbf{z}$. The global score, as defined in Eq.\eqref{eq:clustering:global_score}, does not depend on the classifier hyperparameters $\boldsymbol{\gamma}$; in \S\ref{sec:clustering:mb:it} we are going to discuss the implications of this choice. 
+
+\smallskip
+Notice that the advantage of using the score function in Eq.~\eqref{eq:clustering:global_score} is that each local regressor can be trained independently by maximizing its local score. To us, this is a crucial property, as we are not altering well-established training procedures and can leverage existing codes, even gradient-based optimization algorithms, to perform model selection and define $\boldsymbol{\beta}_l$. To see this, we consider the gradient of the global score with respect to the hyperparameters of a local regressor $l$, $\boldsymbol{\beta}_l$,
 
 \begin{equation}
   \left.
@@ -84,22 +90,22 @@ As we can see, the gradient of the global score with respect to the hyperparamet
 \end{equation}
 
 Unless required, in the following sections we will drop the explicit dependence of $\Delta S (\cdot)$ on $\mathbf{z}$ and $\boldsymbol{\beta}$ to simplify the notation.
-\blue{Eq.~\eqref{eq:clustering:change_score} assumes that the hyperparameters $\boldsymbol{\beta}$ remain fixed for each local regressor during the evaluation of the change of score. This assumption, although essential for fast and efficient query of $\Delta S (l \rightarrow l^\prime; \bx_i)$, does not affect the convergence of the iterative clustering algorithm, as shown in \S\ref{sc:convergence}. The iterative membership update criterion consists of updating $\mathbf{z}^{(t)} \rightarrow \mathbf{z}^{(t+1)}$ by promoting membership updates that lead to an increase in the global score, i.e., $S(\boldsymbol{\beta}^{(t)}, \mathbf{z}^{(t+1)}) > S(\boldsymbol{\beta}^{(t)}, \mathbf{z}^{(t)})$, and then updating the local regressor hyperparameters $\boldsymbol{\beta}^{(t)} \rightarrow \boldsymbol{\beta}^{(t+1)}$ by maximizing the local scores on the new clusters.}
+\blue{Eq.~\eqref{eq:clustering:change_score} assumes that the hyperparameters $\boldsymbol{\beta}$ remain fixed for each local regressor during the evaluation of the change of score. This assumption, although essential for fast and efficient query of $\Delta S (l \rightarrow l^\prime; \bx_i)$, does not affect the convergence of the iterative clustering algorithm, as shown in \S\ref{sc:convergence}. The iterative membership update criterion consists of updating $\mathbf{z}^{(t)} \rightarrow \mathbf{z}^{(t+1)}$ by promoting membership updates that lead to an increase in the global score, i.e., $S_{\mathrm{global}}(\boldsymbol{\beta}^{(t)}, \mathbf{z}^{(t+1)}) > S_{\mathrm{global}}(\boldsymbol{\beta}^{(t)}, \mathbf{z}^{(t)})$, and then updating the local regressor hyperparameters $\boldsymbol{\beta}^{(t)} \rightarrow \boldsymbol{\beta}^{(t+1)}$ by maximizing the local scores on the new clusters.}
 
 \smallskip
 Notice we only calculate the change in global score when a single point per cluster changes its membership. Indeed, given a general update $\mathbf{z}^{(t)} \rightarrow \mathbf{z}^{(t+1)}$, the resulting change in global score is not equal to the sum of the individual $\Delta S (\cdot)$,
 
 \begin{equation}
-  S(\boldsymbol{\beta}^{(t)}, \mathbf{z}^{(t+1)}) - S(\boldsymbol{\beta}^{(t)}, \mathbf{z}^{(t)}) \neq \displaystyle\sum_{i \in \mathcal{O}} \Delta S (z_i^{(t)} \rightarrow z_i^{(t+1)}; \bx_i) \;.
+  S_{\mathrm{global}}(\boldsymbol{\beta}^{(t)}, \mathbf{z}^{(t+1)}) - S_{\mathrm{global}}(\boldsymbol{\beta}^{(t)}, \mathbf{z}^{(t)}) \neq \displaystyle\sum_{i \in \mathcal{O}} \Delta S (z_i^{(t)} \rightarrow z_i^{(t+1)}; \bx_i) \;.
 \end{equation}
 
-To keep the problem tractable while still allowing batch membership updates we deliberately introduce the independent $\Delta S (\cdot)$ approximation but restrict the set of points that can change their membership to a subset of the total, $\mathcal{O}_{\mathrm{update}} \subset \mathcal{O}$.
+To keep the problem tractable while still allowing batch membership updates we deliberately introduce the independent $\Delta S (\cdot)$ approximation but restrict the set of points that can change their membership to a subset of the total, $\mathcal{O}_{\mathrm{update}} \subset \mathcal{O}$, defined later.
 
 \smallskip
 Finally, details on the specific expression of $\Delta S (l \rightarrow l^\prime; \bx_i)$ for \glspl{gp} and \glspl{pce} are deferred to \S\ref{sc:score_functions}.
 
 \smallskip
-\blue{On the one hand, the above-mentioned update strategy constitutes the core of our model-based clustering scheme. On the other hand, it is prone to severe overfitting issues, which will be illustrated on a simple example.}
+\blue{On the one hand, the above-mentioned update strategy constitutes the core of our model-based clustering scheme. On the other hand, it is prone to severe over-fitting issues, which will be illustrated on a simple example.}
 
 \begin{figure}[htbp]
   \centering
@@ -118,7 +124,7 @@ Finally, details on the specific expression of $\Delta S (l \rightarrow l^\prime
   \label{fig:clustering:bad_clustering}
 \end{figure}
 
-In Fig.~\ref{fig:clustering:bad_clustering} we show a visual representation of what overfitting can look like in our setting. In the left panel, we have a good clustering of the observations, where each cluster corresponds to a connected region of the input space. However, the clustering in Fig.~\ref{fig:clustering:bad_clustering_1} does not maximize the global score; it is the clustering in Fig.~\ref{fig:clustering:bad_clustering_2} that does it. The global score is higher in the second case because one local regressor is a simple constant (fixed mean and very low variance) that fits perfectly observations close to its prior mean. However, this clustering is not desirable as it is disconnected and does not lead to a good reconstruction of the subdomains. This is a clear example of overfitting, and we must prevent it by discouraging membership updates that lead to disconnected clusters. 
+In Fig.~\ref{fig:clustering:bad_clustering} we show a visual representation of what over-fitting can look like in our setting. In the left panel, we have a good clustering of the observations, where each cluster corresponds to a connected region of the input space. However, the clustering in Fig.~\ref{fig:clustering:bad_clustering_1} does not maximize the global score; it is the clustering in Fig.~\ref{fig:clustering:bad_clustering_2} that does it. The global score is higher in the second case because one local regressor is a simple constant that fits perfectly observations close to its value. However, this clustering is not desirable as it is disconnected and does not lead to a good reconstruction of the subdomains. This is a clear example of over-fitting, and we must prevent it by discouraging membership updates that lead to disconnected clusters. 
 
 \smallskip
 What Eq.~\eqref{eq:clustering:global_score} is missing is a term that captures the performance of the classifier in separating the clusters. Rather than adding this term to the global score, in Eq.~\eqref{eq:clustering:global_score}, we propose to use it to modify the membership update criterion defined in Eq.~\eqref{eq:clustering:change_score}. In particular, Eq.~\eqref{eq:clustering:change_score} captures the gain in global score when updating memberships and $\mathbb{P}_{\mathrm{CLS}}(\cdot)$ computes whether the new membership is admissible according to the classifier (higher probability for points close to the boundaries and lower probability for points far from the boundaries). We can combine these two to formulate a stochastic membership update criterion, in which the probability of changing the membership of an observation $i$ to a cluster $l$ is defined as follows,
@@ -147,23 +153,30 @@ Notice that since Eq.~\eqref{eq:clustering:membership_update_prob} does not yiel
   \label{eq:clustering:prob_change_membership}
 \end{equation}
 
-With Eq.~\eqref{eq:clustering:prob_change_membership} we can now formulate a stochastic optimization scheme, reported in Algorithm~\ref{alg:clustering:model_clustering}. For the sake of notational clarity, we introduce $\mathcal{O} = \{1, \ldots, \nobs\}$ as the set of indices of the observations in $\data$, not to be confused with the observation operator introduced in \S\ref{sec:sota_2}.
+Eq.~\eqref{eq:clustering:prob_change_membership} will be used to define $\mathcal{O}_{\mathrm{update}}$. Indeed, $\mathcal{O}_{\mathrm{update}}$ can be constructed by resampling $N_{\mathrm{update}}$ different points from $\mathcal{O}$ using the value of Eq.~\eqref{eq:clustering:prob_change_membership} as resampling weights. This ensures that we are likely to sample points that will have a high probability of changing their membership (equivalent to yielding a great score increase).
+
 
 \begin{algorithm}[htbp]
   \caption{Model-Based Clustering}
   \label{alg:clustering:model_clustering}
   \begin{algorithmic}[1]
-    \Require Initial clustering $\mathbf{z}$, local regressor parameters $\boldsymbol{\beta}$, classifier parameters $\boldsymbol{\gamma}$, temperature $T$.
+    \Require Initial $\mathbf{z}^{(0)}$, $\boldsymbol{\beta}^{(0)}$, $\boldsymbol{\gamma}^{(0)}$, $T^{(0)}$.
     \Ensure Final $\mathbf{z}$, $\boldsymbol{\beta}$, $\boldsymbol{\gamma}$.
-    \While{not converged}
+    \While{convergence criterion is not met}
       \State Compute transition probabilities for all points $i \in \mathcal{O}$ via Eq.~\eqref{eq:clustering:prob_change_membership}.
-      \State Sample a subset $\mathcal{O}_{\mathrm{update}}$ of size $N_{\mathrm{update}} \leq N$ based on these probabilities.
+      \State Sample a subset $\mathcal{O}_{\mathrm{update}}$ according to $\mathbb{P}(l^\prime \neq l \mid \bx_i, \mathbf{z}, T)$.
       \For{$i \in \mathcal{O}_{\mathrm{update}}$}
-        \State Sample and update membership: $l^\prime \sim \mathbb{P}( \cdot \mid \bx_i, \mathbf{z}, T)$.
+        \State Sample a new membership: $l^\prime \sim \mathbb{P}( \cdot \mid \bx_i, \mathbf{z}, T)$.
+        \If{$l^\prime \neq l$}
+        \State Update the membership.
+    \Else
+        \State Membership is not updated.
+    \EndIf
+
       \EndFor
-      \State Update local regressors $\forall l$: $\boldsymbol{\beta}_l \gets \argmax_{\boldsymbol{\beta}_l} S(\boldsymbol{\beta}_l, \mathcal{D}_l(\mathbf{z}))$.
-      \State Retrain the classifier.
-      \State Decrease the temperature $T \gets \alpha_T T$.
+      \State Retrain local regressors $\boldsymbol{\beta}^{(t+1)}$ and classifier $\boldsymbol{\gamma}^{(t+1)}$ on $\mathbf{z}^{(t+1)}$.
+      \State Decrease the temperature $T^{(t+1)} \gets \alpha_T T^{(t)}$.
+      \State $t \gets t + 1$
     \EndWhile
   \end{algorithmic}
 \end{algorithm}
@@ -174,7 +187,7 @@ Alg.~\ref{alg:clustering:model_clustering} describes the model based clustering 
 After sampling the points that will be allowed to update their membership, we sample a new membership for each of these points from the probabilities defined in Eq.~\eqref{eq:clustering:membership_update_prob}, and if the new membership is different from the current one, we perform the membership update. Finally, at the end of each iteration, we retrain the local models and the classifier on the new clusters by maximizing their local scores and their classification score, respectively.
 
 \smallskip
-The cycle continues until a convergence criterion is met, which can be defined based on the change in global score, e.g., $|S_{\mathrm{global}}^{(t+1)} - S_{\mathrm{global}}^{(t)}| \leq \epsilon_S |S_{\mathrm{global}}^{(t)}|$, for some user-defined threshold $\epsilon_S$ or a minimum temperature $T_{\min}$ (equivalent to a maximum number of iterations). In practice, the algorithm usually terminates (no more updates are proposed) in a finite number of steps in most cases, as will be shown in \S\ref{sc:convergence}.
+The cycle continues until a convergence criterion is met, which can be defined based on the change in global score, e.g., $|S_{\mathrm{global}}^{(t+1)} - S_{\mathrm{global}}^{(t)}| \leq \epsilon_S |S_{\mathrm{global}}^{(t)}|$, for some user-defined threshold $\epsilon_S$ or a minimum temperature $T_{\min}$ (equivalent to a maximum number of iterations). In practice, the algorithm usually terminates (no more updates are proposed) in a finite number of steps, as will be shown in \S\ref{sc:convergence}.
 
 \subsection{Reduction and Merging of Clusters}
 \label{sec:clustering:mb:reduction_merging}
@@ -204,7 +217,7 @@ Mixing occurs because two local models, for cluster $\mathcal{O}_l$ and $\mathca
 We can detect these situations by checking a metric called confusion, and defined for a pair of clusters $\mathcal{O}_l$ and $\mathcal{O}_{l^\prime}$ as,
 
 \begin{equation}
-  C(l,l^{\prime} \mid \mathbf{z}) = \dfrac{\sum_{i\in \mathcal{O}_l} \abs{\mathbb{P}(l \rightarrow l \mid \bx_i, \mathbf{z}, T) - \mathbb{P}(l \rightarrow l^{\prime} \mid \bx_i, \mathbf{z}, T)}}{\sum_{i\in \mathcal{O}_l} \mathbb{P}(l \rightarrow l \mid \bx_i, \mathbf{z}, T) + \mathbb{P}_i(l \rightarrow l^{\prime} \mid \bx_i, \mathbf{z}, T)}
+  C(l,l^{\prime}) = \dfrac{\sum_{i\in \mathcal{O}_l} \abs{\mathbb{P}(l \rightarrow l \mid \bx_i, \mathbf{z}, T) - \mathbb{P}(l \rightarrow l^{\prime} \mid \bx_i, \mathbf{z}, T)}}{\sum_{i\in \mathcal{O}_l} \mathbb{P}(l \rightarrow l \mid \bx_i, \mathbf{z}, T) + \mathbb{P}(l \rightarrow l^{\prime} \mid \bx_i, \mathbf{z}, T)}
   \label{eq:clustering:overlap}
 \end{equation}
 
@@ -239,22 +252,25 @@ Points are then ranked based on their $\Delta S_i^\star$ values, and the $N_{\ma
   \caption{Deterministic Model-Based Clustering ($T=0$)}
   \label{alg:clustering:deterministic_clustering}
   \begin{algorithmic}[1]
-    \Require Initial $\mathbf{z}^{(0)}$, $\boldsymbol{\beta}^{(0)}$, $\boldsymbol{\gamma}^{(0)}$, update strategy ($N_{\mathrm{update}}$ limit).
+    \Require Initial $\mathbf{z}^{(0)}$, $\boldsymbol{\beta}^{(0)}$, $\boldsymbol{\gamma}^{(0)}$.
     \Ensure Final $\mathbf{z}$, $\boldsymbol{\beta}$, $\boldsymbol{\gamma}$.
     \While{convergence criterion is not met}
       \For{$i \in \mathcal{O}$}
         \State Define admissible set $\mathcal{A}^{(t)}(\bx_i)$ via Eq.~\eqref{eq:clustering:admissible_set_deterministic}.
         \State Compute $\Delta S_i^\star$ and $l^\star_i$.
-        \State Compute $\mathcal{O}_{\mathrm{update}}$.
       \EndFor
-      \State $\forall i \in \mathcal{O}_{\mathrm{update}}$, update membership: $z_i^{(t+1)} \gets l^\star_i$.
+      \State Build $\mathcal{O}_{\mathrm{update}}$ by choosing the $N_{\mathrm{update}}$ points that maximize $\Delta S_i^\star$
+      \State $\forall i \in \mathcal{O}_{\mathrm{update}}$, update membership: $z_i^{(t+1)} \gets l^\star_i$ (if $l^\star_i \neq z_i^{(t)}$).
       \State Retrain local regressors $\boldsymbol{\beta}^{(t+1)}$ and classifier $\boldsymbol{\gamma}^{(t+1)}$ on $\mathbf{z}^{(t+1)}$.
       \State $t \gets t + 1$
     \EndWhile
   \end{algorithmic}
 \end{algorithm}
 
-Note that Alg.~\ref{alg:clustering:deterministic_clustering} still includes the purging mechanism described in \S\ref{sec:clustering:mb:reduction_merging}. Because the total number of initial points $\nobs$ is finite, the algorithm cannot purge clusters indefinitely. Eventually, the algorithm reaches a state where all remaining clusters satisfy $|\mathcal{O}_l| \geq N_{\min}$, and the total number of clusters $L$ remains fixed. We conduct our convergence analysis in this post-purging phase.
+Alg.~\ref{alg:clustering:deterministic_clustering} represents the deterministic version of Alg.~\ref{alg:clustering:model_clustering}. For compatibility reasons, $\mathcal{O}_{\mathrm{update}}$ is now the set of indices of $N_{\mathrm{update}}$ points in $\data$ that yield the largest $\Delta S_i^\star$.
+
+\smallskip
+The same purging mechanism defined in \S\ref{sec:clustering:mb:reduction_merging} is also present in Alg.~\ref{alg:clustering:deterministic_clustering}. Because the total number of initial points $\nobs$ is finite, the algorithm cannot purge clusters indefinitely. Eventually, the algorithm reaches a state where all remaining clusters satisfy $|\mathcal{O}_l| \geq N_{\min}$, and the total number of clusters $L$ remains fixed. We conduct our convergence analysis in this post-purging phase.
 
 \smallskip
 Since the space of all possible assignments of $\nobs$ points into $L$ clusters, denoted as $Z$, is finite ($|Z| \leq L^{\nobs}$), any deterministic sequence generated on $Z$ must eventually either terminate at a fixed point or enter a periodic loop.
@@ -297,7 +313,7 @@ This sets a first requirement on $\mathbf{z}^{(0)}$, which states that if $\Omeg
 \red{First and foremost, we noted that $T^{(0)}$ and $C_{\min}$ are connected. When the temperature is high, clusters will eventually mix and even a low threshold $C_{\min}$ enables merging. When the temperature is low, only boundary points tend to mix and a higher $C_{\min}$ is required to enable merging. To reduce the number of hyperparameters we suggest fixing $C_{\min}$ to 0.5 and varying the initial temperature.}
 
 \smallskip
-\red{The classifier activation threshold $h_{\min}$ is a critical hyperparameter. A high threshold can block useful membership updates while a low value could trigger overfitting. In order to ensure that boundary points can change their membership one must ensure that $h_{\min}^{(t)} \leq 1/L^{(t)}$. To avoid overfitting we can rely on the classifier correlation length $\ell$ (or a similar parameter). Assuming that the classifier probability decays exponentially with the distance to the neighbors $d$, $\mathbb{P}_{\mathrm{CLS}} \propto \exp (-0.5 d^2/\ell^2)$, setting $h_{\min}^{(t)} \geq 1\%$ is sufficient to ensure that a point can switch to a cluster if its distance to the cluster's spatial region is below $3 \ell$. In our tests we verified that $h_{\min} = \frac{1}{L^{(0)}+1}$ is a good value. However, given the low dimensionality of the hyperparameters space, we suggest performing a grid search to maximize a \gls{cv} metric.}
+\red{The classifier activation threshold $h_{\min}$ is a critical hyperparameter. A high threshold can block useful membership updates while a low value could trigger over-fitting. In order to ensure that boundary points can change their membership one must ensure that $h_{\min}^{(t)} \leq 1/L^{(t)}$. To avoid over-fitting we can rely on the classifier correlation length $\ell$ (or a similar parameter). Assuming that the classifier probability decays exponentially with the distance to the neighbors $d$, $\mathbb{P}_{\mathrm{CLS}} \propto \exp (-0.5 d^2/\ell^2)$, setting $h_{\min}^{(t)} \geq 1\%$ is sufficient to ensure that a point can switch to a cluster if its distance to the cluster's spatial region is below $3 \ell$. In our tests we verified that $h_{\min} = \frac{1}{L^{(0)}+1}$ is a good value. However, given the low dimensionality of the hyperparameters space, we suggest performing a grid search to maximize a \gls{cv} metric.}
 
 \smallskip
 \red{Finally, the initial temperature $T^{(0)}$ affects the balance between exploration and exploitation of Alg.~\ref{alg:clustering:deterministic_clustering}. When the temperature is too high, clusters tend to mix and the algorithm aggressively merges too many clusters, entering in an unrecoverable disadvantageous state. When the temperature is too low, the algorithm is able to identify the presence of discontinuities and purge clusters with too few points, but may end up with more clusters than necessary and smooth subdomains may be split into multiple clusters. The optimal value of $T^{(0)}$ is problem dependent and can be found by performing a grid search to maximize the global score $S_{\mathrm{global}}(\boldsymbol{\beta}, \mathbf{z})$ together with the final number of clusters, as shown in \S\ref{sc:tc_1}.}
@@ -412,10 +428,10 @@ A popular way to fit a polynomial model to data is to use ordinary least squares
   \label{eq:clustering:pc_score}
 \end{equation}
 
-where $R(\boldsymbol{\beta})$ is a regularization term that can be added to prevent overfitting. If no regularization is used, the optimal coefficients $\boldsymbol{\beta}$ can be computed in closed-form as $\boldsymbol{\beta} = (\boldsymbol{\phi}(\mathbf{X})^{\top} \boldsymbol{\phi}(\mathbf{X}))^{-1} \boldsymbol{\phi}(\mathbf{X})^{\top} \mathbf{y}$, while if a Tikhonov regularization is used, the optimal coefficients can be computed as $\boldsymbol{\beta} = (\boldsymbol{\phi}(\mathbf{X})^{\top} \boldsymbol{\phi}(\mathbf{X}) + \lambda \mathbf{I})^{-1} \boldsymbol{\phi}(\mathbf{X})^{\top} \mathbf{y}$, for some user-defined regularization parameter $\lambda$. The change in global score $\Delta S (l \rightarrow l^{\prime}; \bx_i, \mathbf{z}, \boldsymbol{\beta})$ when changing the membership of an observation $i$ from its current cluster $l$ to another cluster $l^\prime$ can be derived by substituting the expression for the score function defined in Eq.~\eqref{eq:clustering:pc_score} into Eq.~\eqref{eq:clustering:change_score}, leading to,
+where $R(\boldsymbol{\beta})$ is a regularization term that can be added to prevent over-fitting. If no regularization is used, the optimal coefficients $\boldsymbol{\beta}$ can be computed in closed-form as $\boldsymbol{\beta} = (\boldsymbol{\phi}(\mathbf{X})^{\top} \boldsymbol{\phi}(\mathbf{X}))^{-1} \boldsymbol{\phi}(\mathbf{X})^{\top} \mathbf{y}$, while if a Tikhonov regularization is used, the optimal coefficients can be computed as $\boldsymbol{\beta} = (\boldsymbol{\phi}(\mathbf{X})^{\top} \boldsymbol{\phi}(\mathbf{X}) + \lambda \mathbf{I})^{-1} \boldsymbol{\phi}(\mathbf{X})^{\top} \mathbf{y}$, for some user-defined regularization parameter $\lambda$. The change in global score $\Delta S (l \rightarrow l^{\prime}; \bx_i, \mathbf{z}, \boldsymbol{\beta})$ when changing the membership of an observation $i$ from its current cluster $l$ to another cluster $l^\prime$ can be derived by substituting the expression for the score function defined in Eq.~\eqref{eq:clustering:pc_score} into Eq.~\eqref{eq:clustering:change_score}, leading to,
 
 \begin{equation}
-  \Delta S (l \rightarrow l^{\prime}; \bx_i) = - (y_i - \tilde{f}_{l^\prime}(\bx_i; \boldsymbol{\beta}_{l^\prime}))^2 + (y_i - \tilde{f}_{l}(\bx_i; \boldsymbol{\beta}_{l}))^2 \;.
+  \Delta S (l \rightarrow l^{\prime}; \bx_i) = - (f_i - \tilde{f}_{l^\prime}(\bx_i; \boldsymbol{\beta}_{l^\prime}))^2 + (f_i - \tilde{f}_{l}(\bx_i; \boldsymbol{\beta}_{l}))^2 \;.
   \label{eq:clustering:delta_score_pc}
 \end{equation}
 
@@ -583,7 +599,7 @@ The results show that the fraction of mis-clustered points decreases as the numb
 Increasing the dimensionality of the input space leads to a higher fraction of mis-clustered points, especially for small training sets. The percentage improves as the training set grows. \red{The results of our model clustering scheme are more robust than the ones of a \gls{dp}-\gls{gmm} clustering scheme.}
 
 \smallskip
-\red{Concering our clustering scheme, }we attribute mis-clustering primarily to data scarcity rather than to algorithmic failure (e.g., convergence to a poor local optimum): in high dimensions and few data points, the global score does not correlate well with the quality of the clustering. We test this hypothesis by initializing the clustering algorithm with the exact partition of the input space, Eq.~\eqref{eq:clustering:sudomains}, and then running it in the deterministic regime (i.e., $T=0$) to see whether the exact partitioning corresponds to a maximum of the global score. We repeat this experiment 30 times with different \gls{lhs}-\gls{ndoe} for $d=6$ and $100$ and $500$ observations. We also compute the \gls{mse} on an independent \gls{lhs}-\gls{ndoe} of $100'000$ points.
+\red{Concerning our clustering scheme, }we attribute mis-clustering primarily to data scarcity rather than to algorithmic failure (e.g., convergence to a poor local optimum): in high dimensions and few data points, the global score does not correlate well with the quality of the clustering. We test this hypothesis by initializing the clustering algorithm with the exact partition of the input space, Eq.~\eqref{eq:clustering:sudomains}, and then running it in the deterministic regime (i.e., $T=0$) to see whether the exact partitioning corresponds to a maximum of the global score. We repeat this experiment 30 times with different \gls{lhs}-\gls{ndoe} for $d=6$ and $100$ and $500$ observations. We also compute the \gls{mse} on an independent \gls{lhs}-\gls{ndoe} of $100'000$ points.
 
 {
 \begin{figure}[htbp]
@@ -738,7 +754,7 @@ To this end, we generate synthetic data using a cosine function whose amplitude 
   \label{tab:params_synthetic}
 \end{table}
 
-The reference ($d=2$) parameters used to generate the synthetic data are reported in Table~\ref{tab:params_synthetic}. The function $w(\bx)$ is a smooth step function that transitions from $0$ to $1$ around the radius $R(d)$. Similarly to the previous example, the radius $R(d)$ is numerically determined for each dimension $d$ such that the inner region ($||\bx||_2 < R(d)$) and outer shell ($||\bx||_2 > R(d)$) occupy an equal fraction of the volume of $\Omega$. 
+The reference ($d=2$) parameters used to generate the synthetic data are reported in Table~\ref{tab:params_synthetic}. The function $w(\bx)$ is a smooth step function that transitions from $0$ to $1$ around the radius $R(d)$. Similarly to the previous example, the radius $R(d)$ is numerically determined for each dimension $d$ such that the inner region ($\|\bx\|_2 < R(d)$) and outer shell ($\|\bx\|_2 > R(d)$) occupy an equal fraction of the volume of $\Omega$. 
 
 \smallskip
 As the dimensionality $d$ increases, the geometric size of the hypercube domain expands; the maximum distance from the origin to a corner is $\sqrt{d}$, forcing $R(d)$ to increase accordingly. If the frequencies and transition sharpness were kept constant, higher dimensions would artificially contain more radial oscillations and a proportionally sharper transition boundary, making the underlying regression problem inherently more complex. To guarantee a fair, apples-to-apples evaluation that tames the curse of dimensionality (at least for moderate dimensions $d \leq 8$), the parameters are scaled relative to the 2-dimensional reference case ($R_{ref} \approx 0.798$). Specifically, the inner frequency and the transition sharpness are scaled inversely proportional to the inner domain size ($f_1(d) = f_1 \frac{R_{ref}}{R(d)}$ and $\beta(d) = \beta \frac{R_{ref}}{R(d)}$), while the outer frequency is scaled according to the outer domain size ($f_2(d) = f_2 \frac{\sqrt{2} - R_{ref}}{\sqrt{d} - R(d)}$). This ensures that the total number of wave periods and the proportional width of the transition region remain strictly invariant across all dimensions.

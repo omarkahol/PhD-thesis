@@ -1,10 +1,12 @@
 use File::Basename;
 
+$out_dir = '.build';
+
 # Track Main, Acronym, AND Symbol extensions
 push @generated_exts, 'glo', 'gls', 'glg';
 push @generated_exts, 'acn', 'acr', 'alg';
 push @generated_exts, 'slo', 'sls', 'slg'; # <-- The symbol files!
-$clean_ext .= " acr acn alg glo gls glg slo sls slg";
+$clean_ext .= " acr acn alg glo gls glg slo sls slg aux";
 
 # Add custom dependencies so latexmk knows to build each list type
 add_cus_dep('glo', 'gls', 0, 'makeglossaries');
