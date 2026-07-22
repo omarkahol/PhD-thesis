@@ -16,6 +16,7 @@ The thesis can be compiled using the provided `makefile`. Simply run the command
 - `make covers`: Compiles only the cover pages (located in the `IPP` directory).
 - `make clean`: Removes the `.build` auxiliary directory and the generated thesis PDF.
 - `make clean-cache`: Removes the global Biber cache and cleans the local build files (useful if Biber acts up).
+- `make presentation`: Compiles the presentation slides (in `presentation/` directory) into a PDF.
 
 ## Acknowledgements
 

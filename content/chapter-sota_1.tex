@@ -213,7 +213,7 @@ Another important fact to keep in mind is that the parametrization of the true m
 \smallskip
 To set the stage for the next chapter, we propose an interesting example 
 
-\subsubsection{The origin of Gaussian Process priors}
+\subsubsection{The Origin of Gaussian Process Priors}
 
 Assume that we have parameterized the true map as follows,
 
@@ -286,7 +286,7 @@ The first push-forward measure $\mathbb{P}_{y_{\mathrm{cal}} \mid \bx}$ is the d
 This framework, together with the above-stated assumptions, constitutes the \textit{Bayesian Calibration Framework} and provides the tools and methodology to calibrate mis-specified models. It is typically referred to as the \gls{koh} framework. To avoid confusion with a popular modular approach, also termed the \gls{koh} method in honor of its inventors~\cite{koh2001_sup}, we will refer to the above framework as the \gls{fb} framework.
 
 
-\section{Challenges of the Full Bayes framework}
+\section{Challenges of the Full Bayes Framework}
 \label{sec:sota_1:identifiability}
 
 The \gls{fb} framework described in the previous section is a powerful and general framework for calibration, but it is not without its challenges. In particular, there are two main challenges that arise when using the \gls{fb} framework: one is specific to the treatment of the uncertainty on the model error term $z(\bx; \bpsi)$, while the other is more general and concerns the identifiability and well-posedness of the calibration problem. We will discuss these two challenges in the following sections.
@@ -386,7 +386,7 @@ As first proposed by~\cite{hagan_2014}, pointwise constraints fix the value of t
 
 We see that the identifiability of the calibration problem depends on the sensitivity of the model output to the parameters at the point $\bx_0$.
 
-\subsubsection{Feature removal constraints} 
+\subsubsection{Feature Removal Constraints} 
 A similar approach to get physically meaningful parameters is to remove specific \textit{features} from the discrepancy function. Assume that we want the discrepancy to not be able to capture a shape $\phi(\bx)$ (e.g., constant offsets, linear trends), a constraint operator can be defined as:
 
 \begin{equation}
@@ -399,14 +399,14 @@ The corresponding interaction operator is then given by,
     \mathcal{M}_{\btheta} = \int_{\Omega} \phi(\bx) \nabla_{\btheta} f(\bx; \btheta)^\top \, \dd \bx \;.
 \end{equation}
 
-\subsubsection{Orthogonality constraint}
+\subsubsection{Orthogonality Constraint}
 The orthogonality constraint proposed by~\cite{Plumlee2017} enforces the model error term to be orthogonal to the sensitivity of the model output to the parameters. This constraint can be expressed as a feature removal constraint with $\phi_i(\bx) = \mathcal{J}_i(\bx)$. In this case the interaction operator is given by the Gram matrix of the Jacobian, $\mathcal{M}_{ij} = \int_{\Omega} \mathcal{J}_i(\bx) \mathcal{J}_j(\bx) \, \dd \bx$. The identifiability is guaranteed if the base model is sensitive to all the parameters, i.e., $\mathcal{M}$ is positive definite.
 
-\subsubsection{Informative priors}
+\subsubsection{Informative Priors}
 Finally, a different approach to inject prior beliefs on the model error term is to use informative priors $\prior{\bpsi}$ that constrain the \gls{gp} prior $\prior{z; \bpsi}$ to have specific properties. A good reference for choosing informative priors is the work of~\cite{stat_dec_th}. While this approach does not constrain the model error and therefore does not guarantee identifiability, it can still be used to inject prior beliefs on the model error term and mitigate confounding effects. Furthermore, specifying the structure of $\prior{\bpsi}$ is sometimes more intuitive than specifying the structure of the constraint operator $\mathcal{C}$.
 
 
-\subsubsection{Example 1: The Simple Machine}
+\subsubsection{Example 1: the Simple Machine}
 As a first example, we consider the simple machine example introduced by~\cite{hagan_2014}. The true system is given by $y(x) = 0.65x/(1+x/20)$, and the computer model is a simple linear function $f(x; \theta) = \theta x$. We generate 11 synthetic observations of the system at $x \in [4, 10]$ with Gaussian noise of standard deviation $\sigma_{\text{obs}} = 0.001$ (to mimic the infinite data limit). The model error term is modeled as a zero mean \gls{gp} with an \gls{rbf} covariance. Uniform priors are used for the parameters and hyperparameters. 
 
 \smallskip
@@ -433,7 +433,7 @@ In their original work, the authors compared the results of the \gls{fb} framewo
 
 \blue{In Fig.~\ref{fig:sota_1:simple_machine_constraints} we show the results of the simple machine example. Fig.~\ref{fig:sota_1:simple_machine_posterior} shows the posterior distribution of the parameter $\theta$ and Fig.~\ref{fig:sota_1:realizations} shows the posterior realizations of $f(x; \theta)$. As expected, the \gls{koh} framework without constrains (and similarly the \gls{koh} framework with a constraint on the discrepancy at $x=0$) is not able to identify a single value of $\theta$ even in the limit of infinite data. Constraining the gradient of the discrepancy to be zero at $x=0$ or enforcing the orthogonality constraint yields a posterior distribution of $\theta$ that concentrates around a single value. In the first case, the value of $\theta$ corresponds to the slope of the true system at $x=0$, the \textit{physical value}, but it is not the value that minimizes the $L^2$ distance to the data. In the second case, the value of $\theta$ corresponds to the value that minimizes the $L^2$ distance to the data, but it is not the physical value of $\theta$. This example highlights how different constraints yield different definitions of the model parameters and how one should be careful when talking about \textit{true} values of the parameters.}
 
-\subsubsection{Example 2: A nonlinear Heat Equation}
+\subsubsection{Example 2: a Nonlinear Heat Equation}
 To \blue{further} highlight the effect of the constraint operator on the calibration outcome, we consider the calibration of a steady heat equation in 1D with a nonlinear thermal conductivity. The \gls{pde} is given by,
 
 \begin{equation}
@@ -464,7 +464,7 @@ In Fig.~\ref{fig:sota_1:heat_informed_vs_uninformed} we show the posterior distr
 
 
 
-\section{Beyond the Full Bayes framework: Modular approaches and their limitations}
+\section{Beyond the Full Bayes framework: Modular Approaches and Their Limitations}
 \label{sec:sota_1:modularization}
 
 In this section we will present modular approaches to calibration, which are a popular alternative to the \gls{fb} framework. After presenting the different approaches to modularization, we will discuss their limitations and why they are not compatible with the Bayesian philosophy. We will then lay the groundwork for the next chapter, in which we will present a novel calibration framework aimed at solving the issues of the \gls{fb} framework and the limitations of modular approaches.
@@ -487,7 +487,7 @@ Modular approaches are very popular in practice, since they solve the issues of 
 
 We shall now present some of the most popular approaches to estimate the hyperparameters $\bar{\bpsi}$ of the model error term. 
 
-\subsubsection{The MAP estimator}
+\subsubsection{The MAP Estimator}
 In their original work, Kennedy and O'Hagan~\cite{koh2001_sup} proposed to fix the hyperparameters to their \gls{map} estimate,
 
 \begin{equation}
@@ -496,7 +496,7 @@ In their original work, Kennedy and O'Hagan~\cite{koh2001_sup} proposed to fix t
 
 In this work, we will refer to this approach as the \gls{koh} method.
 
-\subsubsection{The Maximum Likelihood estimator}
+\subsubsection{The Maximum Likelihood Estimator}
 Originally proposed by~\cite{Bachoc2013}, the \gls{mle} fixes the hyperparameters to the value that maximizes the likelihood,
 
 \begin{equation}

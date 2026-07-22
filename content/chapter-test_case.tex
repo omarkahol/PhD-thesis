@@ -1,6 +1,6 @@
 % !TEX root = ../my-thesis.tex
 %
-\chapter{Calibration of catalytic efficiencies in reusable Thermal Protection Materials.}
+\chapter{Calibration of Catalytic Efficiencies in Reusable Thermal Protection Materials.}
 \label{sec:cfd}
 
 \cleanchapterquote{To call in the statistician after the experiment is done may be no more than asking him to perform a postmortem examination.}{Ronald Fisher}{(English Statistician, 1890-1962)}
@@ -28,7 +28,7 @@ In the hypersonic community, Upadhyay et al.~\cite{Upadhyay_2011} were the first
 \smallskip
 A key limitation of previous studies is that the discrepancy between simulations and measurements was attributed only to experimental uncertainty. In high-enthalpy plasma facilities, this assumption is often overly optimistic. Del Val et al.~\cite{del2026modelerror} noted that ground-test facilities cannot reproduce the full range of physical phenomena and timescales encountered in flight. As a consequence, models calibrated on incomplete experimental datasets may exhibit significant predictive errors, because inferred parameters can absorb multiple un-modeled effects, reducing generalizability. For example, calibrating gas-phase chemical-kinetic mechanisms without accounting for these gaps can introduce uncertainties that propagate to predicted shock-layer composition and resulting boundary layer gradients. The role of model error in hypersonic applications was also emphasized by Capriati~\cite{PhDThesis_Capriati}. After calibrating a finite-rate air-carbon ablation model, he observed that predicted mass blowing rates were less sensitive to surface temperature than suggested by experiments. This mismatch may indicate model inadequacy, measurement bias, or both. Additional sources of model error include simplified \gls{gsi} treatments (e.g., prescribing a fixed catalytic efficiency instead of resolving finite-rate surface chemistry), diffusion-model assumptions, numerical errors (e.g., insufficient near-wall mesh resolution), and assumptions embedded in simulations (e.g., uniform reservoir conditions in high-enthalpy plasma wind-tunnel testing). Neglecting these effects can induce bias and promote overfitting in parameter estimation~\cite{hagan_2014, ling2014selection}.
 
-\section{Calibration of Plasmatron data}
+\section{Calibration of Plasmatron Data}
 \label{sc:cfd:plasmatron}
 
 This section briefly describes the experimental facility and the real supersonic campaign that the synthetic data used for the Bayesian inversion are intended to reproduce.
@@ -118,7 +118,7 @@ At this stage, the calibration problem is well-defined, and we proceed in \S\ref
 
 In this section, we present two numerical models used to simulate the experiment. The first one is a high-fidelity \gls{cfd} model that solves the multi-component \gls{ns} equations for a mixture of chemically reacting species in thermochemical non-equilibrium. The second one couples a 0D nozzle solver with a quasi-1D solver that reproduces the flow field along the stagnation line of the probe. 
 
-\subsection{High fidelity solver}
+\subsection{High Fidelity Solver}
 \label{sc:cfd:us3D}
 
 The \gls{cfd} solver \texttt{US3D} (version 1.1.8)~\cite{US3D} is a parallel, implicit, unstructured, three-dimensional flow solver developed at the University of Minnesota in collaboration with NASA for the accurate simulation of hypersonic and re-entry flows. The high-temperatures and relatively low-pressures that characterize the applications considered in this work activate chemical reactions that alter the gas composition and promote dissociation. \texttt{US3D} is used to solve the multi-component \gls{ns} equations for a mixture of \(n_\text{s}\) chemically reacting species in thermochemical non-equilibrium:
@@ -155,7 +155,7 @@ The numerical domain corresponds to the region between the nozzle inlet (i.e. th
 As far as the boundary conditions are concerned, a subsonic inflow condition is prescribed at the nozzle inlet. Accordingly, the reservoir pressure $\mathrm{P}_0$ and temperature $\mathrm{T}_0$, together with the inflow velocity $\mathbf{u}_0$. The chemical composition of the inflow is defined by imposing chemical equilibrium at the reservoir conditions. The nozzle walls are modeled as isothermal, non-catalytic surfaces with a fixed temperature of \(350\,\text{K}\). A supersonic outflow condition is imposed at the outlet section. The probe is modeled as an isothermal, catalytic surface with a fixed temperature of \(350\,\text{K}\). All other boundaries are treated as symmetry planes. 
 
 
-\subsection{Low fidelity solver}
+\subsection{Low Fidelity Solver}
 
 In this section, we present a low-fidelity solver that we use as a way to synthetically introduce a model error term in the calibration process. The low fidelity solver is built by coupling a simple 0D nozzle solver with a quasi 1D solver that reproduces the flow field along the stagnation line of the probe. 
 
@@ -447,7 +447,7 @@ Since the variance of the potential is a bi-product of the selection process, Eq
 
 This section is dedicated to the presentation of the results for the different calibration scenarios briefly described in the previous section. In the first part, \S\ref{sec:cfd:results:p1}, we present the results for the reconstruction of the catalytic coefficients $\gamma_N$ and $\gamma_O$ using the surrogate model of Eq.~\eqref{eq:cfd:mapping} using different state-of-the-art calibration strategies. In the second part, \S\ref{sec:cfd:results:p2}, we show the performance of the \gls{as}-\gls{hgp} strategy, for the more complex calibration problem described by the surrogate model of Eq.~\eqref{eq:cfd:mapping_surr}. In this part, we use the \gls{cmp} method and the \gls{as}-\gls{hgp} strategy to perform the calibration, and we compare the results in terms of computational cost and posterior distribution of the parameters.
 
-\subsection{Reconstruction of the catalytic coefficients}
+\subsection{Reconstruction of the Catalytic Coefficients}
 \label{sec:cfd:results:p1}
 
 In this part, we present the results for the reconstruction of the catalytic coefficients $\gamma_N$ and $\gamma_O$ using the surrogate model of Eq.~\eqref{eq:cfd:mapping}. The hypersonic community is particularly interested in three main questions regarding the effect of the model error term. First and foremost, we need a quantitative way to assess the presence of a model error term in the calibration process. Secondly, we need to quantify the effect of the model error term on the posterior distribution of the catalytic efficiencies. Finally, we need to understand whether we can still infer the true values of the catalytic coefficients from the available measurements in the presence of a model error term. To answer these questions, we address two different scenarios. In the first scenario, we consider the presence of an experimental bias, which is a common source of model error in experimental measurements. In the second scenario, we consider the presence of a model discrepancy due to the use of an inadequate model.
@@ -672,7 +672,7 @@ In Fig.~\ref{fig:cfd:Y} we show the mass fractions for $N_2$ $N$ and $O$ and tem
 In general, the results of this section show that estimating the true values of the catalytic coefficients from measurements of the heat-flux is a challenging problem, especially in the presence of a model error term. However, by properly accounting for the presence of a model error term in the calibration process, and properly designing the experiments, is possible to infer the true values of the catalytic coefficients from the available measurements, even in the presence of a model error term.
 
 
-\subsection{Surrogate-based accelerated calibration}
+\subsection{Surrogate-Based Accelerated Calibration}
 \label{sec:cfd:results:p2}
 
 In this section we present the results obtained with the \gls{as}-\gls{hgp} strategy for the calibration of the surrogate model of Eq.~\eqref{eq:cfd:mapping_surr}. As hinted in \S\ref{sc:cfd:methodology}, we artificially introduce a model error term by constructing the surrogate model of Eq.~\eqref{eq:cfd:mapping_surr} using only 10 \gls{cfd} simulations, which is not enough to capture the complexity of the \gls{cfd} model. We shall refer to the synthetic data generated with the \gls{cfd} code as the matrix $\mathbf{Y} = \{(q_{\mathrm{w}}^{(i)}, \mathrm{P}_{\mathrm{w}}^{(i)}, \dot{m}^{(i)})^{\top}\}_{i=1}^{\nobs}$, where $\nobs=14$ is the number of synthetic observations, and to the surrogate model of Eq.~\eqref{eq:cfd:mapping_surr} as $\tilde{\boldsymbol{f}}(\mathbf{X}; \boldsymbol{\theta})$, where $\boldsymbol{\theta} = (\mathrm{T}_0, \gamma_N)$ are the parameters that we want to calibrate and $\mathbf{X} = \{(\mathrm{P}_0^{(i)}, \mathrm{P}_s^{(i)})^{\top}\}_{i=1}^{\nobs}$ are the control variables of the experiments. Note that these values are reported in Tab.~\ref{tab:exp_data_2}. As stated in \S\ref{sc:cfd:methodology}, the model error term of each observable is then modeled as a zero-mean \gls{gp} with an elliptic \gls{rbf} covariance, i.e. $z_{i}(.; \bpsi) \sim \mathcal{GP}(z; 0, k_{\mathrm{RBF}}(.; \bpsi_{i}))$, where $\bpsi_i = (\sigma_{z_i}, \ell_{\mathrm{P}_0, z_i}, \ell_{\mathrm{P}_s, z_i})$ are the hyperparameters of the model error term that we need to infer from the data. We choose to use a non-informative uniform prior distribution for correlations lengths, $\ell_i$, and Jeffrey's prior for the kernel strengths, $\sigma_{z_i}$ \cite{uq_theory}. 

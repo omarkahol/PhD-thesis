@@ -82,10 +82,27 @@ covers:
 clean:
 	rm -rf $(AUXSDIR)
 	rm -f $(PROJ).pdf
+	rm -rf Presentation/.build
+	rm -f Presentation/main.pdf
 
 # Run this manually via 'make clean-cache' ONLY when Biber misbehaves
 clean-cache: clean
 	@echo "Clearing global Biber cache... (Next compilation will take a few seconds longer)"
 	rm -rf $$(biber --cache)
 
-.PHONY: all fast full clean covers clean-cache setup-no-covers setup-covers
+# --- Presentation Compilation ---
+presentation:
+	@echo "Compiling Presentation..."
+	cd Presentation && \
+	export TEXINPUTS=".:.build:./parts:./resources:./sources:./sources/gotham:./sources/Inria:$$TEXINPUTS" && \
+	export BIBINPUTS=".:./resources:$$BIBINPUTS" && \
+	mkdir -p .build && \
+	pdflatex -interaction=nonstopmode -halt-on-error -output-directory=.build --shell-escape main.tex || exit 1; \
+	bib2gls --dir .build main || true; \
+	biber --output-directory .build .build/main || true; \
+	pdflatex -interaction=nonstopmode -halt-on-error -output-directory=.build --shell-escape main.tex || exit 1; \
+	pdflatex -interaction=nonstopmode -halt-on-error -output-directory=.build --shell-escape main.tex || exit 1; \
+	cp .build/main.pdf ./main.pdf
+	@echo "Presentation compiled successfully: Presentation/main.pdf"
+
+.PHONY: all fast full clean covers clean-cache setup-no-covers setup-covers presentation

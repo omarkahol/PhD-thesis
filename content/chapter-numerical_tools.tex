@@ -22,7 +22,7 @@ Finally, all the numerical tools presented in this chapter, and many more, were 
 
 In this section, we introduce the concept of \gls{gpr}, which is a non-parametric regression method that allows practitioners to model complex relationships between input and output variables. After a brief introduction on regression, we will introduce the concept of \glspl{gp} and their properties, and then we will discuss how \glspl{gpr} can be used for regression tasks. We will also discuss some of the practical considerations when using \gls{gpr}, such as the choice of covariance functions and hyperparameter tuning, as well as some more advanced topics used in this thesis.
 
-\subsection{What is Regression?}
+\subsection{What Is Regression?}
 Given a set of observations $\mathcal{D} = \{(\bx_i, y_i)\}_{i=1}^{\nobs}$, where $\bx_i \in X \subset \reals^{d_x}$ is a vector of independent variables and $y_i \in Y \subset \reals$ is the corresponding dependent variable, regression aims to find a function $f(\bx)$ such that $y_i \approx f(\bx_i)$ for all $i$. 
 Practitioners often restrict the space of candidate functions by introducing a parametric family of functions $F_{\btheta} = \{f(\bx; \btheta) : \btheta \in \Theta\}$, where $\btheta$ is a vector of parameters that define the function. The goal of regression is then to identify a specific function $f(\bx; \btheta^\star)$ from the parametric family that best fits the observed data, where $\btheta^\star$ is the optimal set of parameters. This is typically done by minimizing a loss function that measures the discrepancy between the predicted values and the observed values, such as the \gls{mse} or the negative log-likelihood. 
 
@@ -210,7 +210,7 @@ where $\sigma^2$ is the variance of the observation noise. Using the block matri
 
 For notational simplicity, we will often refer to the posterior distribution of the \gls{gp} as $\mathcal{GP}(m_{\bpsi}, k_{\bpsi} \mid \data)$.
 
-\subsection{Hyperparameter Selection via Maximum Marginal Likelihood}
+\subsection{Hyperparameter Selection Via Maximum Marginal Likelihood}
 \label{sec:ntools:gpr:mml}
 
 The hyperparameters $\bpsi$ of the \gls{gp}, including the parameters of the covariance function and the observation noise variance $\sigma^2$, play a crucial role in determining the behavior of the model, as evident from Fig.~\ref{fig:ntools:gp_kernels_lengthscale}. Rather than specifying these hyperparameters manually, we can optimize them directly from the data by maximizing the marginal likelihood (also known as the evidence) of the observations.
@@ -667,7 +667,7 @@ Furthermore, the \gls{hmc} algorithm has two hyperparameters that need to be tun
 In this section, we discuss the problem of classification, which is a fundamental task in machine learning and statistics. After a brief introduction to the classification problem, we focus on a specific algorithm for classification, the \gls{svm}, which is a powerful and widely used algorithm for classification tasks. We discuss the mathematical formulation of the \gls{svm}, its optimization problem, and how to use it for classification tasks. We also discuss how to extend the \gls{svm} to multi-class classification problems.
 
 
-\subsection{What is Classification?}
+\subsection{What Is Classification?}
 Similar to regression, classification is the task of learning a mapping from a set of input $\bx \in \Omega \subset \mathbb{R}^d$ to a set of discrete labels $z \in \{1, \ldots, L\}$. The difference with regression is that in classification, the output is a discrete label rather than a continuous value. We call the set of observations $\mathcal{D} = \{(\bx_i, z_i)\}_{i=1}^{\nobs}$, where $\bx_i$ is the $i$-th observation and $z_i$ is the corresponding label. 
 
 \smallskip

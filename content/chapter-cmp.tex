@@ -559,7 +559,7 @@ Fig.~\ref{fig:cmp:fig_6} presents the results of the calibration. It shows that 
 
 Fig.~\ref{fig:cmp:fig_7} reports the value of the hyperparameters and the Hessian used by the \gls{cmp} method. The hyperparameters, see Fig.~\ref{fig:cmp:fig_7a}, used by the \gls{koh} method correspond to the average value, computed with respect to the final posterior distribution (see Eq.~\eqref{eq:koh_hpar}), of the ones used by the \gls{fmp}/\gls{cmp} methods. Their values will therefore be influenced by the presence of a strong peak around $\theta \approx -0.1$. The magnitude of the correction factor, depicted in Fig.~\ref{fig:cmp:fig_7b}, is significant. However, it is important to focus on relative variations rather than the absolute scale, as the \gls{cmp} method's approximation is valid up to a multiplicative constant. It is nevertheless interesting to observe that not including the Hessian would lead to a significant overestimation of the second mode. 
 
-\subsection{Example 2: Higher Dimensional Uni-modal Distribution}
+\subsection{Example 2: Higher Dimensional Uni-Modal Distribution}
 \label{sc:cmp:test_case}
 
 In this section, we will calibrate a model that relates the drag coefficient, $C_D$, of a smooth sphere moving through a fluid to its Reynolds number, Re. The first comprehensive characterization of this relationship was provided by Lapple and Shepherd in 1940 \cite{lapple_1940}, and is commonly referred to as the standard drag curve.

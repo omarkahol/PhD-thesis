@@ -1,6 +1,6 @@
 % !TEX root = ../my-thesis.tex
 %
-\chapter{Surrogate-based accelerated calibration}
+\chapter{Surrogate-Based Accelerated Calibration}
 \label{sec:surr}
 
 \cleanchapterquote{Per correr miglior acque alza le vele; omai la navicella del mio ingegno ...}{Dante Alighieri (Divina Commedia)}{Italian Poet (1265-1321)}
@@ -56,7 +56,7 @@ In \S\ref{sc:surr:accel-calibr} we present the surrogate-based speed-up strategy
 \smallskip
 This chapter is based on a contribution published in the \textit{Journal of Mechanical Design}~\cite{surr} in which we present the surrogate-based speed-up strategy to accelerate the \gls{cmp} calibration process. 
 
-\section{Cost analysis of the CMP method}
+\section{Cost Analysis of the CMP Method}
 \label{sec:surr:perf-cmp-calbr}
 
 In this subsection we discuss the computational cost of the \gls{cmp} method and show how introducing a surrogate model for $\psimap$ can alleviate such cost. Evaluating the \gls{cmp} distribution, Eq.~\eqref{eq:cmp:cmp}, or the predictive distribution, Eq.~\eqref{eq:cmp:pred}, requires two expensive steps:
@@ -139,7 +139,7 @@ Tab.~\ref{tab:method_costs_small} summarizes the computational costs of the diff
 \smallskip
 We can however expect \gls{hgp} methods to be more accurate than \gls{lpgp} methods since they preserve the structure of the posterior distribution and provide direct access to the hyperparameters. Furthermore, since \gls{as} strategies build a training set in regions of the parameter space that are more likely a posteriori, we can expect them to be more accurate than \gls{lhs} strategies for a given training set size. The goal is therefore to build an accurate surrogate model of $\psimap$ with a limited number of training points, $\ntrain$, and a limited number of iterations, ${\niter}$, to keep both offline and online costs low. In the following section we present such a strategy.
 
-\section{Methodology: accelerated CMP via surrogate modeling}
+\section{Methodology: Accelerated CMP Via Surrogate Modeling}
 \label{sc:surr:accel-calibr}
 
 In this section we discuss the surrogate-based speed-up strategy to accelerate the \gls{cmp} calibration process. In \S\ref{sc:surr:surrogate} we introduce a surrogate model for the model error hyperparameters, $\psimap$, and in \S\ref{sc:surr:iterative} we present an iterative algorithm to build the surrogate model.
@@ -210,7 +210,7 @@ Finally, since the \glspl{hgp} are random functions, the surrogate model for the
 
 The random variable $\gamma(\boldsymbol{\omega})$ ensures that the distribution is normalized.
 
-\subsection{Adaptive Sampling Strategy AS-hGP}
+\subsection{Adaptive Sampling Strategy AS-HGP}
 \label{sc:surr:iterative}
 
 The construction of the surrogate model for the hyperparameters, $\tilde{\bpsi}(\btheta)$, requires the selection of the training set, $\boldsymbol{\Psi}$. As discussed in \S\ref{sec:surr:intro}, the choice of the training set is critical to achieve a good accuracy with a limited number of training points, $\ntrain$. Traditional one-shot designs, such as \gls{lhs}, build the training set without any knowledge of the posterior distribution, which can lead to a poor accuracy if the posterior distribution is concentrated in small regions of the parameter space. On the other hand, \gls{as} strategies build the training set in regions of the parameter space that are more likely a posteriori, which can significantly improve the accuracy for a given training set size.
@@ -403,7 +403,7 @@ Finally, \gls{hgp} strategies are consistently more efficient than their \gls{lp
 
 The final training grid design, projected on the first two coordinates, for the different strategies is shown in Fig.~\ref{fig:surr:fig_3}. The \gls{lhs} design is shown in red, while black and green points correspond to the ones of the \gls{as}-\gls{hgp} and \gls{as}-\gls{lpgp} strategies respectively. The blue region corresponds to the \gls{kde} of the joint posterior distribution, which is obtained by sampling 100'000 points from Eq.~\eqref{eq:cmp:cmp}. The picture shows that adaptive strategies are able to place more training points near the mode of the posterior distribution and are hence more efficient in reducing the error on the potential. The training set of the \gls{as}-\gls{hgp} strategy is more concentrated than the one of the \gls{as}-\gls{lpgp} strategy, which is due to the fact that the former models the hyperparameters directly and is therefore able to learn more efficiently the structure of the likelihood function.
 
-\subsection{Test Case 2: Design under Uncertainty}
+\subsection{Test Case 2: Design Under Uncertainty}
 \label{sc:tc2}
 
 In this section we illustrate how the \gls{as}-\gls{hgp} strategy can be used to solve a design problem.
@@ -521,7 +521,7 @@ The posterior distribution of the flexural rigidity, $EI$, and the response of t
 
 In Fig.~\ref{fig:surr:fig_7} we show the model error as a function of the tip load, $F$, and the \gls{cmp} hyperparameters as a function of $EI$. As we can see, the model error goes to zero when $F=0$ and increases as $F$ increases, as expected. The \gls{cmp} hyperparameters depend on the calibration parameter, $EI$, and the \glspl{hgp} are able to learn this dependence efficiently. The training set of the \glspl{hgp} is concentrated in the region of high posterior probability, which is a desirable feature of the \gls{as}-\gls{hgp} strategy.
 
-\subsubsection{Design problem}
+\subsubsection{Design Problem}
 
 \begin{figure}[htbp]
   \centering
